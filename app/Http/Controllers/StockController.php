@@ -13,7 +13,8 @@ class StockController extends Controller
      */
     public function index()
     {
-        //
+        $stocks = Stock::all();
+        return view('stocks.index', compact('stocks'));
     }
 
     /**
@@ -21,7 +22,7 @@ class StockController extends Controller
      */
     public function create()
     {
-        //
+        return view('stocks.create');
     }
 
     /**
@@ -29,7 +30,8 @@ class StockController extends Controller
      */
     public function store(StoreStockRequest $request)
     {
-        //
+        $stock = Stock::create($request->validated());
+        return redirect()->route('stocks.index')->with('success', 'Stock created successfully.');
     }
 
     /**
@@ -37,7 +39,7 @@ class StockController extends Controller
      */
     public function show(Stock $stock)
     {
-        //
+        return view('stocks.show', compact('stock'));
     }
 
     /**
@@ -45,7 +47,7 @@ class StockController extends Controller
      */
     public function edit(Stock $stock)
     {
-        //
+        return view('stocks.edit', compact('stock'));
     }
 
     /**
@@ -53,7 +55,8 @@ class StockController extends Controller
      */
     public function update(UpdateStockRequest $request, Stock $stock)
     {
-        //
+        $stock->update($request->validated());
+        return redirect()->route('stocks.index')->with('success', 'Stock updated successfully.');
     }
 
     /**
@@ -61,6 +64,7 @@ class StockController extends Controller
      */
     public function destroy(Stock $stock)
     {
-        //
+        $stock->delete();
+        return redirect()->route('stocks.index')->with('success', 'Stock deleted successfully.');
     }
 }

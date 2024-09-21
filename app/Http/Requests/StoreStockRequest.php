@@ -22,13 +22,13 @@ class StoreStockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'itemCode' => 'required|string|max:50|unique:stocks,item_code,' . $this->id,
-            'itemName' => 'required|string|max:50',
+            'code' => 'required|string|max:50|unique:stocks,code,' . $this->id,
+            'name' => 'required|string|max:50',
             'image' => 'nullable|image|max:10240', // max size in KB (10MB)
             'description' => 'nullable|string',
             'sizes' => 'required|array|min:1',
             'sizes.*.size' => 'required|string|max:50|distinct',
-            'sizes.*.sizeQuantity' => 'required|integer|min:0',
+            'sizes.*.quantity' => 'required|integer|min:0',
 
         ];
     }
@@ -36,13 +36,13 @@ class StoreStockRequest extends FormRequest
     public function messages()
     {
         return [
-            'itemCode.required' => 'Item code is required',
-            'itemName.required' => 'Item name is required',
+            'code.required' => 'Item code is required',
+            'name.required' => 'Item name is required',
             'sizes.required' => 'Sizes are required',
             'sizes.*.size.required' => 'Size is required',
-            'sizes.*.sizeQuantity.required' => 'Size quantity is required',
-            'sizes.*.sizeQuantity.integer' => 'Size quantity must be an integer',
-            'sizes.*.sizeQuantity.min' => 'Size quantity must be at least 0',
+            'sizes.*.quantity.required' => 'Size quantity is required',
+            'sizes.*.quantity.integer' => 'Size quantity must be an integer',
+            'sizes.*.quantity.min' => 'Size quantity must be at least 0',
             'sizes.*.size.distinct' => 'Duplicate sizes are not allowed',
         ];
     }

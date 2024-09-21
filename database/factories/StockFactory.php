@@ -17,7 +17,10 @@ class StockFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'code'    => $this->faker->unique()->numerify('ITEM-#####'),
+            'name'    => $this->faker->word,
+            'image'     => $this->faker->optional()->uuid,
+            'description' => $this->faker->optional()->sentence,
         ];
     }
 }

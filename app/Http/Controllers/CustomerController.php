@@ -39,7 +39,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return view('customers.show', compact('customer'));
     }
 
     /**
@@ -47,7 +47,6 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        $customer = Customer::findOrFail($customer);
         return view('customers.edit', compact('customer'));
     }
 
@@ -56,7 +55,6 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        $customer = Customer::findOrFail($customer);
         $customer->update($request->validated());
         return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
     }
@@ -66,7 +64,6 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        $customer = Customer::findOrFail($customer);
         $customer->delete();
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
     }

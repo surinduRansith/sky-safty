@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Stock;
 use App\Models\Size;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreStockRequest;
 
-class CreateStock extends Component
+
+#[Layout('layouts.app')]
+class StockCreateform extends Component
 {
+
     public $name;
     public $code;
     public $description;
@@ -18,8 +22,19 @@ class CreateStock extends Component
         ['size' => '', 'quantity' => ''],
     ];
 
+
+    public function myModal()
+    {
+        dd('my_modal_1');
+        $modal='my_modal_1';
+        return view('livewire.stock-createform',[
+            'modal' => $modal
+        ]);
+    }
+    
     public function addSize()
     {
+     
         $this->sizes[] = ['size' => '', 'quantity' => ''];
     }
 
@@ -64,6 +79,8 @@ class CreateStock extends Component
             ]);
         }
 
+       
+
         // Reset form fields
         $this->reset(['name', 'code', 'description', 'image', 'sizes']);
         $this->sizes = [['size' => '', 'quantity' => '']];
@@ -71,8 +88,11 @@ class CreateStock extends Component
         session()->flash('success', 'Stock created successfully!');
     }
 
+    public function deleteStock(){
+        dd('saf');
+    }
     public function render()
     {
-        return view('livewire.create-stock');
+        return view('livewire.stock-createform');
     }
 }

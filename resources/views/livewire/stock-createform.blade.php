@@ -1,25 +1,25 @@
-<div>
+<div class=" flex  bg-white dark:bg-gray-800 shadow sm:rounded-lg  place-content-center px-8 py-8">
     <form wire:submit.prevent="store">
         @csrf
 
         <!-- Stock Name -->
         <div class="mb-4">
             <label for="name" class="block font-bold mb-2">Name:</label>
-            <input type="text" id="name" wire:model.defer="name" class="border rounded w-full p-2">
+            <input type="text" id="name" wire:model.defer="name" class="input input-bordered w-full max-w-xs">
             @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
         </div>
 
         <!-- Stock Code -->
         <div class="mb-4">
             <label for="code" class="block font-bold mb-2">Code:</label>
-            <input type="text" id="code" wire:model.defer="code" class="border rounded w-full p-2">
+            <input type="text" id="code" wire:model.defer="code" class="input input-bordered w-full max-w-xs">
             @error('code') <span class="text-red-500">{{ $message }}</span> @enderror
         </div>
 
         <!-- Description -->
         <div class="mb-4">
             <label for="description" class="block font-bold mb-2">Description:</label>
-            <textarea id="description" wire:model.defer="description" class="border rounded w-full p-2"></textarea>
+            <textarea id="description" wire:model.defer="description" class="input input-bordered w-full max-w-xs"></textarea>
             @error('description') <span class="text-red-500">{{ $message }}</span> @enderror
         </div>
 
@@ -35,7 +35,7 @@
                 @error('sizes.' . $index . '.size') <span class="text-red-500">{{ $message }}</span> @enderror
                 @error('sizes.' . $index . '.quantity') <span class="text-red-500">{{ $message }}</span> @enderror
             @endforeach
-            <button type="button" wire:click="addSize" class="text-blue-500 mt-2">+ Add Size</button>
+            <button type="button" wire:click="addSize" class=" btn text-blue-500 mt-2">+ Add Size</button>
         </div>
 
         <!-- Submit Button -->

@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:create-stock />
+    <livewire:stock-createform />
 </x-app-layout>

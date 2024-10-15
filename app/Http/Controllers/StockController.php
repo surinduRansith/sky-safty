@@ -14,16 +14,17 @@ class StockController extends Controller
     public function index()
     {
         $stocks = Stock::all();
+        
         return view('stocks.index', compact('stocks'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return view('stocks.create');
-    }
+    // public function create()
+    // {
+    //     return view('stocks.create');
+    // }
 
     /**
      * Store a newly created resource in storage.

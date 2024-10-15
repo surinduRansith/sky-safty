@@ -5,13 +5,55 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
+   
+    
+        <div class="flex flex-row h-screen justify-center items-center">
+            
+            <a href="{{route('stocks.index')}}">
+                <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
+                    <figure>
+                        <img class="h-64 w-64 object-center" src="{{ asset('images/stocksicon.jpg') }}" alt="Stock Icon" />
+                    </figure>
+                    <div class="card-body">
+                        <h1 class="text-center font-bold text-2xl">Stock</h1>
+                    </div>
                 </div>
-            </div>
+            </a>
+    
+            <a href="#">
+                <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
+                    <figure>
+                        <img class="h-64 w-64 object-center" src="{{ asset('images/quoteicon.jpg') }}" alt="Quotation Icon" />
+                    </figure>
+                    <div class="card-body">
+                        <h1 class="text-center font-bold text-2xl">Quotation</h1>
+                    </div>
+                </div>
+            </a>
+    
+            <a href="{{route('orders.index')}}">
+                <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
+                    <figure>
+                        <img class="h-64 w-64 object-center" src="{{ asset('images/invoiceicon.jpg') }}" alt="Invoice Icon" />
+                    </figure>
+                    <div class="card-body">
+                        <h1 class="text-center font-bold text-2xl">Invoice</h1>
+                    </div>
+                </div>
+            </a>
+    
+            <a href="{{route('customers.index')}}">
+                <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
+                    <figure>
+                        <img class="h-64 w-64 object-center" src="{{ asset('images/custom.jpg') }}" alt="Customer Details Icon" />
+                    </figure>
+                    <div class="card-body">
+                        <h1 class="text-center font-bold text-2xl">Customer Details</h1>
+                    </div>
+                </div>
+            </a>
+    
         </div>
-    </div>
+   
+    
 </x-app-layout>

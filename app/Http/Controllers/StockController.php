@@ -63,9 +63,9 @@ class StockController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Stock $stock)
-    {
-        $stock->delete();
-        return redirect()->route('stocks.index')->with('success', 'Stock deleted successfully.');
-    }
+    // public function destroy(Stock $stock)
+    // {
+    //     $stock->delete();
+    //     return redirect()->route('stocks.index')->with('success', 'Stock deleted successfully.');
+    // }
 }

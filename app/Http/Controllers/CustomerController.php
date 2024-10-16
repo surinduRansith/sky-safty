@@ -20,10 +20,10 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return view('customers.create');
-    }
+    // public function create()
+    // {
+    //     return view('customers.create');
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -62,9 +62,9 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Customer $customer)
-    {
-        $customer->delete();
-        return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
-    }
+    // public function destroy(Customer $customer)
+    // {
+    //     $customer->delete();
+    //     return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+    // }
 }

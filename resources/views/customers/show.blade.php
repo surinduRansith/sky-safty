@@ -4,31 +4,31 @@
             {{ __('Edit Customer') }}
         </h2>
 
-        <form wire:submit.prevent="updateCustomer" class="space-y-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+        
             <div>
                 <x-input-label for="company" :value="__('Company Name')" />
-                <x-text-input wire:model="customer.company" id="company" type="text" class="block mt-1 w-full"
-                    name="company" required autofocus />
+                <x-text-input id="company" type="text" class="block mt-1 w-full"
+                    name="company"  />
                 <x-input-error :messages="$errors->get('customer.company')" class="mt-2" />
             </div>
 
             <div class="mt-4">
                 <x-input-label for="name" :value="__('Customer Name')" />
-                <x-text-input wire:model="customer.name" id="name" type="text" class="block mt-1 w-full"
+                <x-text-input  id="name" type="text" class="block mt-1 w-full"
                     name="name" required />
                 <x-input-error :messages="$errors->get('customer.name')" class="mt-2" />
             </div>
 
             <div class="mt-4">
                 <x-input-label for="email" :value="__('Customer Email')" />
-                <x-text-input wire:model="customer.email" id="email" type="email" class="block mt-1 w-full"
+                <x-text-input  id="email" type="email" class="block mt-1 w-full"
                     name="email" required />
                 <x-input-error :messages="$errors->get('customer.email')" class="mt-2" />
             </div>
 
             <div class="mt-4">
                 <x-input-label for="phone" :value="__('Phone Number')" />
-                <x-text-input wire:model="customer.phone" id="phone" type="text" class="block mt-1 w-full"
+                <x-text-input  id="phone" type="text" class="block mt-1 w-full"
                     name="phone" required />
                 <x-input-error :messages="$errors->get('customer.phone')" class="mt-2" />
             </div>
@@ -43,6 +43,6 @@
                     {{ __('Save Changes') }}
                 </x-primary-button>
             </div>
-        </form>
+     
     </div>
 </x-app-layout>

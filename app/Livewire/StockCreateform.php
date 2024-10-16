@@ -23,14 +23,7 @@ class StockCreateform extends Component
     ];
 
 
-    public function myModal()
-    {
-        dd('my_modal_1');
-        $modal='my_modal_1';
-        return view('livewire.stock-createform',[
-            'modal' => $modal
-        ]);
-    }
+    
     
     public function addSize()
     {
@@ -85,12 +78,11 @@ class StockCreateform extends Component
         $this->reset(['name', 'code', 'description', 'image', 'sizes']);
         $this->sizes = [['size' => '', 'quantity' => '']];
 
-        session()->flash('success', 'Stock created successfully!');
+        return redirect()->route('stocks.index')->with('success', 'Item Add successfully!');
+        //session()->flash('success', 'Stock created successfully!');
     }
 
-    public function deleteStock(){
-        dd('saf');
-    }
+   
     public function render()
     {
         return view('livewire.stock-createform');

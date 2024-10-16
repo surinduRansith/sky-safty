@@ -42,6 +42,7 @@
         <div class="mb-4">
             <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">
                 Create Stock
+                <span class="loading loading-spinner text-primary" wire:loading></span>
             </button>
         </div>
 

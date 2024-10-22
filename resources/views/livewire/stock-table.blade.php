@@ -73,5 +73,7 @@
             @endforeach
         </tbody>
     </table>
+    <br>
+    {{$stocks->links()}}
 
 </div>

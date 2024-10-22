@@ -25,7 +25,7 @@ class StockTable extends Component
             'stocks' => Stock::latest()
             ->where('name', 'like', '%' . $this->search . '%')
             ->orWhere('code', 'like', '%' . $this->search . '%')
-            ->get()
+            ->paginate(5)
         ]);
     }
 }

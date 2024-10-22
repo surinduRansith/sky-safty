@@ -28,7 +28,7 @@ class CustomerTable extends Component
             'customers'=> Customer::latest()
             ->where('name', 'like', '%' . $this->search . '%')
             ->orWhere('company', 'like', '%' . $this->search . '%')
-            ->get()
+            ->paginate(5)
         ]);
     }
 }

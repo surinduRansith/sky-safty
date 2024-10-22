@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreStockRequest;
 
 
-#[Layout('layouts.app')]
+
 class StockCreateform extends Component
 {
 

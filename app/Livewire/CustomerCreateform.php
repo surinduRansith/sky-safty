@@ -58,7 +58,7 @@ class CustomerCreateform extends Component
         //     'phone']);
     }
 
-    #[Layout('layouts.app')]
+
     public function render()
     {
         return view('livewire.customer-createform');

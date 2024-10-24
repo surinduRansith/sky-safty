@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StockController;
 use App\Livewire\CustomerCreateform;
+use App\Livewire\InvoiceCreate;
 use App\Livewire\StockCreateform;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('customers', CustomerController::class);
     Route::get('/customers/create',CustomerCreateform::class)->name('customer.create');
     Route::resource('orders', OrderController::class);
+    
 });
 
 require __DIR__ . '/auth.php';

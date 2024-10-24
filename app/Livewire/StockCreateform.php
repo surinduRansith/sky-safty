@@ -3,21 +3,32 @@
 namespace App\Livewire;
 
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 use App\Models\Stock;
 use App\Models\Size;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreStockRequest;
+use Livewire\WithFileUploads;
 
 
 
 class StockCreateform extends Component
 {
+ use WithFileUploads;
 
+    #[Rule('required|string|max:50')]
     public $name;
+    #[Rule('required|string|max:50|unique:stocks,code')]
     public $code;
+
+    #[Rule('nullable|string')]
     public $description;
+
+    #[Rule('nullable|image|sometimes|max:10240')]
     public $image; // Handle image upload if needed
+
+    #[Rule('required|array|min:1')]
     public $sizes = [
         ['size' => '', 'quantity' => ''],
     ];
@@ -39,29 +50,20 @@ class StockCreateform extends Component
 
     public function store()
     {
-        // Prepare data for validation
-        $data = [
-            'name' => $this->name,
-            'code' => $this->code,
-            'description' => $this->description,
-            'sizes' => $this->sizes,
-        ];
+        
 
-        // Validate using StoreStockRequest
-        $validator = Validator::make($data, (new StoreStockRequest())->rules());
+        $validate = $this->validate();
 
-        if ($validator->fails()) {
-            $this->setErrorBag($validator->errors());
-            return;
+        if ($this->image) {
+            $validate['image']= $this->image->store('uploads', 'public');
+            
         }
 
-        // Create the stock
-        $stock = Stock::create([
-            'name' => $this->name,
-            'code' => $this->code,
-            'description' => $this->description,
-            // 'image' => $this->image, // Handle image upload if needed
-        ]);
+   
+
+        $stock = Stock::create($validate);
+        
+        
 
         // Create associated sizes
         foreach ($this->sizes as $size) {
@@ -79,7 +81,7 @@ class StockCreateform extends Component
         $this->sizes = [['size' => '', 'quantity' => '']];
 
         return redirect()->route('stocks.index')->with('success', 'Item Add successfully!');
-        //session()->flash('success', 'Stock created successfully!');
+      
     }
 
    

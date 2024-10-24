@@ -22,6 +22,15 @@
             <textarea id="description" wire:model.defer="description" class="input input-bordered w-full max-w-xs"></textarea>
             @error('description') <span class="text-red-500">{{ $message }}</span> @enderror
         </div>
+        
+        <div class="mb-4">
+            <label for="image" class="block font-bold mb-2">Image Upload:</label>
+            <input type="file"wire:model="image" accept="image/png, image/jpeg" id="image" class="file-input file-input-bordered w-full max-w-xs" />
+            @error('image') <span class="text-red-500">{{ $message }}</span> @enderror
+        </div>
+
+
+        
 
         <!-- Dynamic Sizes -->
         <div class="mb-4">

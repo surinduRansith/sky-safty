@@ -19,19 +19,19 @@ class StoreStockRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
-        return [
-            'code' => 'required|string|max:50|unique:stocks,code,' . $this->id,
-            'name' => 'required|string|max:50',
-            'image' => 'nullable|image|max:10240', // max size in KB (10MB)
-            'description' => 'nullable|string',
-            'sizes' => 'required|array|min:1',
-            'sizes.*.size' => 'required|string|max:50|distinct',
-            'sizes.*.quantity' => 'required|integer|min:0',
+    // public function rules(): array
+    // {
+    //     return [
+    //         'code' => 'required|string|max:50|unique:stocks,code,' . $this->id,
+    //         'name' => 'required|string|max:50',
+           
+    //         'description' => 'nullable|string',
+    //         'sizes' => 'required|array|min:1',
+    //         'sizes.*.size' => 'required|string|max:50|distinct',
+    //         'sizes.*.quantity' => 'required|integer|min:0',
 
-        ];
-    }
+    //     ];
+    // }
 
     public function messages()
     {

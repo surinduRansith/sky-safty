@@ -50,9 +50,10 @@ class InvoiceCreate extends Component
     }
 
     public function save(){
-
+       
         dd($this->invoiceitems);
-      
+
+
     }
 
    

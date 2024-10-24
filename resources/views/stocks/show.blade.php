@@ -8,6 +8,9 @@
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
                 <h3 class="text-xl font-semibold mb-4">{{ $stock->name }} ({{ $stock->code }})</h3>
+                
+                <img src="{{ asset('storage/' . $stock->image) }}" alt="Uploaded Image" class="w-64 h-64 object-cover mb-4">
+
 
                 <table class="min-w-full divide-y divide-gray-200 dark:divide
 -gray-700">

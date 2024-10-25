@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Arr;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -9,6 +10,7 @@ use App\Models\Stock;
 use App\Models\Size;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreStockRequest;
+use App\Models\Customer;
 use Livewire\WithFileUploads;
 
 
@@ -33,8 +35,6 @@ class StockCreateform extends Component
         ['size' => '', 'quantity' => ''],
     ];
 
-
-    
     
     public function addSize()
     {

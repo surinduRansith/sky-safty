@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('paymentmethod');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
         });
     }

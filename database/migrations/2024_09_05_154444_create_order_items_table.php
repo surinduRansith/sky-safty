@@ -15,9 +15,14 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
-            $table->foreignId('stock_id')->constrained('stocks')->onDelete('cascade');
+            $table->String('stock_id');
+            $table->foreign('stock_id')->references('code')->on('stocks')->onDelete('cascade');
             $table->integer('quantity');
-            $table->float('price');
+            $table->float('unit_price');
+            $table->float('discount');
+            $table->date('invoicedate');
+            $table->date('duedate')->nullable();
+            $table->float('total_discount');
         });
     }
 

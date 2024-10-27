@@ -1,55 +1,66 @@
 <div>
-    <div class="grid grid-cols-2 gap-4 pt-4 px-4 ">
+    @if (session('success'))
+        <div role="alert" class="alert alert-success mb-4 max-w-md"  x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 2000)"
+        x-show="show">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{{ session('success') }}done</span>
+        </div>
+    @endif
+  
+    <div class="grid grid-cols-2 gap-4 ">
         <div>
-            <label class="input input-bordered flex items-center gap-2  mb-4 max-w-md input-md">
+            <label class="input input-bordered flex items-center gap-2  mb-4 max-w-md input-sm">
                 <input type="text" wire:model.live.debounce.300ms="search" class="grow" placeholder="Search Item Name or Code" />
               </label>
-          <br>
-          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+     
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-xs">
             <thead class="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                    <th class="px-6 py-3 text-left">
+                    <th class="px-4 py-2 text-left">
                         <label>
-                            <input type="checkbox"
-                                class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
+                            <input type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
                         </label>
                     </th>
-                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <th class="px-4 py-2 text-left font-medium text-gray-700 dark:text-gray-300">
                         {{ __('Stock Code') }}
                     </th>
-                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <th class="px-4 py-2 text-left font-medium text-gray-700 dark:text-gray-300">
                         {{ __('Stock Name') }}
                     </th>
-                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300"></th>
+                    <th class="px-4 py-2 text-left font-medium text-gray-700 dark:text-gray-300"></th>
                 </tr>
             </thead>
             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 @foreach ($stocks as $index => $stock)
                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 transition ease-in-out duration-150">
-                    <td class="px-6 py-4">
+                    <td class="px-4 py-2">
                         <label>
-                            <input type="checkbox"
-                                        class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                                    </label>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
-                                {{ $stock['code'] }}
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
-                          
-                                {{ $stock['name'] }}
-                           
-                        </td>
-                            <td class="px-6 py-4">
-                               
-                                <button wire:click="addItem({{ $stock['id'] }})"
-                                    class="inline-flex items-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
-                                    Add
-                                    
-                                </button>
-                            
-                            </td>
-                        </tr>
+                            <input type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
+                        </label>
+                    </td>
+                    <td class="px-4 py-2 text-gray-900 dark:text-gray-200">
+                        {{ $stock['code'] }}
+                    </td>
+                    <td class="px-4 py-2 text-gray-900 dark:text-gray-200">
+                        {{ $stock['name'] }}
+                    </td>
+                    <td class="px-4 py-2">
+                        <button wire:click="addItem({{ $stock['id'] }})" class="inline-flex items-center px-2 py-1 bg-red-600 text-white text-xs font-medium rounded hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                            Add
+                        </button>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
@@ -57,85 +68,137 @@
         {{$stocks->links()}}
 
         </div>
+        
         <div>
-            <div class="relative max-w-md">
-                <label class="input input-bordered flex items-center gap-2 mb-4 input-md">
-                    <input type="text" wire:model.live.debounce.300ms="customersearch" class="grow" placeholder="Search Customer" />
-                </label>
-            
-                @if (!empty($customers))
-                    <div class="absolute top-full mt-1 w-full bg-gray-100    border border-gray-300 rounded-lg shadow-lg z-10">
-                        @foreach ($customers as $index => $customer)
-                        <div class="px-4 py-2 dark:hover:bg-blue-400 cursor-pointer   border border-gray-300 rounded-lg shadow-lg z-10 ">
-                        <button wire:click.prevent="setcustomer({{ $customer['id'] }})" class="w-full text-left">
-                              <span class="dark:text-blue-900"> {{ $customer['name'] }} </span>
-                            </button>
-                        </div>  
-                        @endforeach
-                    </div>
-                @endif
+            @if (session('error'))
+            <div role="alert" class="alert alert-error mb-4 max-w-md"  x-data="{ show: true }"
+            x-init="setTimeout(() => show = false, 2000)"
+            x-show="show">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 shrink-0 stroke-current"
+                  fill="none"
+                  viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ session('error') }}</span>
             </div>
+        @endif
+        
+            {{-- <div class="relative max-w-md">
+    <div class="flex items-center mb-4">
+        <label class="input input-bordered flex-grow flex items-center gap-2 input-sm">
+            <input type="text" 
+                   wire:model.live.debounce.300ms="customersearch" 
+                   class="grow" 
+                   placeholder="Search Customer" />
+        </label>
+       
+    </div>
+
+    @if (!empty($customers))
+        <div class="absolute top-full mt-1 w-full bg-gray-100 border border-gray-300 rounded-lg shadow-lg z-10">
+            @foreach ($customers as $index => $customer)
+                <div class="px-4 py-2 dark:hover:bg-blue-400 cursor-pointer border border-gray-300 rounded-lg shadow-lg">
+                    <button wire:click.prevent="setcustomer({{ $customer['id'] }})" class="w-full text-left">
+                        <span class="dark:text-blue-900"> {{ $customer['company'] }} </span>
+                    </button>
+                </div>  
+            @endforeach
+        </div>
+        @else
+        
+    @endif
+</div> --}}
+<div class="relative max-w-md ">
+    <input
+        type="text"
+        class="input input-bordered flex-grow flex items-center w-full mb-4 gap-2 input-sm"
+        placeholder="Search Customer..."
+        wire:model.live.debounce.300ms="customersearch"
+        wire:keydown.escape="resetserach"
+        wire:keydown.tab="resetserach"
+        wire:keydown.arrow-up="decrementHighlight"
+        wire:keydown.arrow-down="incrementHighlight"
+        wire:keydown.enter="selectContact"
+    />
+ 
+   
+ 
+    @if(!empty($customersearch))
+        <div class="fixed top-0 bottom-0 left-0 right-0" wire:click="resetserach"></div>
+ 
+        <div class="absolute top-full mt-1 w-full bg-gray-100 border border-gray-300 rounded-lg shadow-lg z-10 list-group">
+            @if(!empty($customers))
+                @foreach($customers as $i => $customer)
+                <div class="px-4 py-2 dark:hover:bg-blue-400 cursor-pointer border border-gray-300 rounded-lg shadow-lg">
+                    <button wire:click.prevent="setcustomer({{ $customer['id'] }})" class="w-full text-left">
+                        <span class="dark:text-blue-900"> {{ $customer['company'] }} </span>
+                    </button>
+                </div> 
+                @endforeach
+            @else
+                <div class="list-item">No results!</div>
+            @endif
+        </div>
+    @endif
+</div>
+
+    
             
-            <div class="grid grid-cols-2 gap-4 pt-4 px-4 ">
+            
+            <div class="grid grid-cols-2 gap-4 pt-1 px-4 ">
                 <div>  
-                    <label class="input input-bordered flex items-center gap-2 mb-4 input-sm">
+                    <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
                     Invoice ID : <span class="text-white-500">{{ $invoiceid }}</span>
                   </label>
                 </div>
-                <div>  
-                    <label class="input input-bordered flex items-center gap-2 mb-4 input-sm">
-                    <input type="text" wire:model="POnumber" class="grow" placeholder="PO Number" />
-                  </label>
-                  @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
-                </div>
-                <div>  
-                    <label class="input input-bordered flex items-center gap-2 mb-4 input-sm">
-                    <input type="text" wire:model="name" class="grow" placeholder="Customer Name" />
-                  </label>
-                  @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
-                </div>
                 <div>
-                     <label class="input input-bordered flex items-center gap-2 mb-4 input-sm">
+                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
                     <input type="text" wire:model="company" class="grow" placeholder="Company Name" />
                   </label>
                   @error('company') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
                 <div>
-                    <label class="input input-bordered flex items-center gap-2 mb-4 input-sm">
+                    <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
                         <input type="text" wire:model="address" class="grow" placeholder="Company Address" />
                       </label>
                       @error('address') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
                 <div>
-                    <label class="input input-bordered flex items-center gap-2 mb-4 input-sm">
-                        <input type="text" wire:model="email" class="grow" placeholder="Customer Email" />
-                      </label>
-                      @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label class="input input-bordered flex items-center gap-2 mb-4 input-sm">
-                        <input type="text" wire:model="phone" class="grow" placeholder="Phone Number" />
-                      </label>
-                      @error('phone') <span class="text-red-500">{{ $message }}</span> @enderror
-                </div>
-                <div>
                     <select wire:model="paymentmethod" class="select select-sm select-bordered w-full max-w-xs">
-                        <option disabled selected>Select Payment Method</option>
-                        <option>Cash</option>
-                        <option>Cheque</option>
-                        <option>Credit</option>
-                        <option>Online</option>
+                        <option  selected>Select Payment Method</option>
+                        <option value="30 Day Credit">30 Day Credit</option>
+                        <option value="COD">COD</option>
                       </select>
-                      @error('phone') <span class="text-red-500">{{ $message }}</span> @enderror
+                      @error('paymentmethod') <span class="text-red-500">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                   
+                    <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
+                        Invoice Date :<input type="date" wire:model="invoicedate" class="grow" placeholder="Phone Number" />
+                      </label>
+                      
+                </div>
+                <div>
+                    <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
+                        Payment Due: <input type="date" wire:model="duedate" class="grow" placeholder="Phone Number" />
+                      </label>
+                     
                 </div>
                 
 
             </div>
+           
         </div>
-
+        
     </div>
 
-    <div class="grid pt-4 px-4 ">
+ 
         <br>
 
  @if (count($invoiceitems) > 0)
@@ -262,5 +325,5 @@
 </div>
 @endif  
 
-    </div>
+
 </div>

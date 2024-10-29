@@ -17,6 +17,24 @@
             <span>{{ session('success') }}done</span>
         </div>
     @endif
+    @if (session('errorquantity'))
+    <div role="alert" class="alert alert-error mb-4 max-w-md"  x-data="{ show: true }"
+    x-init="setTimeout(() => show = false, 6000)"
+    x-show="show">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ session('errorquantity') }}done</span>
+    </div>
+@endif
   
     <div class="grid grid-cols-2 gap-4 ">
         <div>
@@ -70,50 +88,29 @@
         </div>
         
         <div>
-            @if (session('error'))
-            <div role="alert" class="alert alert-error mb-4 max-w-md"  x-data="{ show: true }"
-            x-init="setTimeout(() => show = false, 2000)"
-            x-show="show">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 shrink-0 stroke-current"
-                  fill="none"
-                  viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>{{ session('error') }}</span>
-            </div>
-        @endif
-        
-            {{-- <div class="relative max-w-md">
-    <div class="flex items-center mb-4">
-        <label class="input input-bordered flex-grow flex items-center gap-2 input-sm">
-            <input type="text" 
-                   wire:model.live.debounce.300ms="customersearch" 
-                   class="grow" 
-                   placeholder="Search Customer" />
-        </label>
-       
+           @if(session()->has('errors'))
+    @foreach(session('errors') as $error)
+    <div role="alert" class="alert alert-error mb-4 "  x-data="{ show: true }"
+    x-init="setTimeout(() => show = false, 5000)"
+    x-show="show">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ $error }}</span>
     </div>
-
-    @if (!empty($customers))
-        <div class="absolute top-full mt-1 w-full bg-gray-100 border border-gray-300 rounded-lg shadow-lg z-10">
-            @foreach ($customers as $index => $customer)
-                <div class="px-4 py-2 dark:hover:bg-blue-400 cursor-pointer border border-gray-300 rounded-lg shadow-lg">
-                    <button wire:click.prevent="setcustomer({{ $customer['id'] }})" class="w-full text-left">
-                        <span class="dark:text-blue-900"> {{ $customer['company'] }} </span>
-                    </button>
-                </div>  
-            @endforeach
-        </div>
-        @else
+    @endforeach
+@endif
+    
         
-    @endif
-</div> --}}
+       
 <div class="relative max-w-md ">
     <input
         type="text"
@@ -225,6 +222,9 @@
                     {{ __('Stock Name') }}
                 </th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {{ __('Stock Size') }}
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ __('QTY') }}
                 </th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -236,6 +236,7 @@
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ __('Total') }}
                 </th>
+                <th></th>
             </tr>
         </thead>
         <form wire:submit.prevent="save">
@@ -254,6 +255,30 @@
                         <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
                             
                             {{ $stock['itemname'] }}
+
+                            
+                       
+                    </td>
+                    <td>
+                        <select wire:model="invoiceitems.{{ $index }}.sizesselect" class="select select-sm select-bordered w-full max-w-xs">
+                        
+                            <option selected>Select Size</option>
+                            @foreach ($stock['sizes'] as $sizeindex => $size)
+                            @if($size['quantity']==0)
+                            <option disabled value="{{ $size['size'] }}" class="bg-red-100 text-red-700 cursor-not-allowed font-semibold">
+                                {{ $size['size'] }} - Quantity is 0
+                            </option>
+                            @else
+                            <option value="{{ $size['size'] }}" class="text-white-800 font-medium">
+                                {{ $size['size'] }} - <span class="text-blue-600 font-semibold">{{ $size['quantity'] }} qty</span>
+                            </option>
+                            
+                            @endif
+                                                        
+               
+                            @endforeach
+                        </select>
+
                        
                     </td>
                         <td class="px-6 py-4">
@@ -277,14 +302,14 @@
 
                             {{-- <input type="text" wire:model.live.debounce.300ms="invoiceitems.{{ $index }}.total" class="w-24" /> --}}
                             @if ($stock['discount'] > 0)
-                         
+                            Rs.
                             @php
                                 $itemtotal = ((float)$stock['qty'] * (float)$stock['unitprice']) - ((float)$stock['qty'] * (float)$stock['unitprice'] * (float)$stock['discount'] / 100);
                                 $subtotal += ((float)$stock['qty'] * (float)$stock['unitprice']) - ((float)$stock['qty'] * (float)$stock['unitprice'] * (float)$stock['discount'] / 100);
                             @endphp
                             {{$itemtotal}}
                             @else
-                            
+                            Rs.
                             @php
                                 $itemtotal = (float)$stock['qty'] * (float)$stock['unitprice'];
                                 $subtotal += (float)$stock['qty'] * (float)$stock['unitprice'];
@@ -292,35 +317,42 @@
                              {{$itemtotal}}
                             @endif
                         </td>
+                        <td>
+                            <button class="btn btn-error btn-sm" wire:click="removeItem({{ $index }})">Remove</button>
+                        </td>
+                       
                     </tr>
             @endforeach
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 transition ease-in-out duration-150">
 
-                <td class="px-6 py-4 " colspan="5"></td>
+                <td class="px-6 py-4 " colspan="6"></td>
                 <td class="px-6 py-4">Subtotal</td>
                 <td class="px-6 py-4">{{$subtotal}}</td>
+                <td ></td>
             </tr>
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 transition ease-in-out duration-150">
 
-                <td class="px-6 py-4 " colspan="5"></td>
+                <td class="px-6 py-4 " colspan="6"></td>
                 <td class="px-6 py-4">Total Discount</td>
                 <td class="px-6 py-4">
                 <input type="number" wire:model.live.debounce.300ms="totaldiscount" class="w-24" />
                 </td>
+                <td ></td>
             </tr>
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 transition ease-in-out duration-150">
 
-                <td class="px-6 py-4 " colspan="5"></td>
+                <td class="px-6 py-4 " colspan="6"></td>
                 <td class="px-6 py-4">Total Amount</td>
                 <td class="px-6 py-4">
                    @if ($totaldiscount > 0)
                       
-                   {{$totalAmount=(float)$subtotal - ((float)$subtotal * (float)$totaldiscount / 100)}}
+                   Rs. {{$totalAmount=(float)$subtotal - ((float)$subtotal * (float)$totaldiscount / 100)}}
                     @else
-                    {{$totalAmount=(float)$subtotal}}
+                    Rs.{{$totalAmount=(float)$subtotal}}
                     @endif
                     
                 </td>
+                <td ></td>
             </tr>
         </tbody>
     </table>

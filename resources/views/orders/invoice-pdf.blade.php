@@ -2,17 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <title>Invoice</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
             color: #333;
         }
-        .header, .footer {
+        .header {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 10px;
             padding-bottom: 10px;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            
+            font-size: 14px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
 
         .invoice-details{
@@ -28,6 +38,7 @@
             margin-top: 15px;
         }
         .invoice-details {
+            margin-top: 200px;
             text-align: right;
         }
         
@@ -50,6 +61,25 @@
 </head>
 <body>
     <div class="header">
+
+        <table>
+            <tbody>
+                <tr>
+                    <td style="width: 40%;">
+                        <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image" style="width: 150px; height: auto;">
+                    </td>
+                    
+                    <td style="width: 500%;  text-align: left; padding-left: 20px;">
+                        <h1 style="margin: 0; font-weight: bold;">Sky Safety Equipment</h1>
+                        <p style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka</p>
+                        <p style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</p>
+                        <p style="margin: 0;">Business Reg. No: WD 21641</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+     
         <h1>Invoice</h1>
     </div>
     <div class="invoice-details">
@@ -59,7 +89,7 @@
                 <tr>
                    <td>Invoice No</td>
                    <td>:</td>
-                   <td>{{$orderbill['id']}}</td> 
+                   <td>SS/{{$orderbill['id']}}</td> 
                 </tr>
                 <tr>
                     <td>Invoice Date</td>
@@ -113,6 +143,7 @@
             <tr>
                 <th>Item Code</th>
                 <th>Description</th>
+                <th>Size</th>
                 <th>Qty</th>
                 <th>Unit Price</th>
                 <th>Discount</th>
@@ -121,18 +152,26 @@
         </thead>
         <tbody>
             @foreach ($orderitems as $index => $orderitem)
+            
+               
             <tr>
-                <td>{{$orderitem['stock_id']}}</td>
-                <td>{{$orderitem['description']}}</td>
+
+                <td>{{$orderitem->stock->code}}</td>
+                <td>
+                    {{$orderitem->stock->name}}
+                
+                
+                </td>
+                <td>{{$orderitem['sizes']}}</td>
                 <td>{{$orderitem['quantity']}}</td>
-                <td>{{$orderitem['unit_price']}}</td>
+                <td>Rs.{{$orderitem['unit_price']}}</td>
                 <td>{{$orderitem['discount']}}</td>
                 <td>
                     @if ($orderitem['discount'] > 0)
                     @php
                         
                         $subtotal = ((float)$orderitem['quantity'] * (float)$orderitem['unit_price']) - ((float)$orderitem['quantity'] * (float)$orderitem['unit_price'] * (float)$orderitem['discount'] / 100);
-                        echo $subtotal;
+                        echo "Rs. ". $subtotal;
                         $totalamount += ((float)$orderitem['quantity'] * (float)$orderitem['unit_price']) - ((float)$orderitem['quantity'] * (float)$orderitem['unit_price'] * (float)$orderitem['discount'] / 100);
                     @endphp
                     @else
@@ -140,7 +179,7 @@
                         
                         $subtotal = (float)$orderitem['quantity'] * (float)$orderitem['unit_price'];
                         $totalamount += (float)$orderitem['quantity'] * (float)$orderitem['unit_price'];
-                        echo $subtotal;
+                        echo "Rs. ".$subtotal;
                     @endphp
                     @endif 
                    
@@ -157,6 +196,7 @@
                 <td ></td>
                 <td ></td>
                 <td ></td>
+                <td ></td>
                 <td >Total Discount</td>
                 <td>
                  {{$totaldiscount}}
@@ -169,16 +209,17 @@
                 <td ></td>
                 <td ></td>
                 <td ></td>
+                <td ></td>
                 <td >Total</td>
                 <td>
                     @if ($totaldiscount > 0)
                         @php
 
                             $totalamount=(float)$totalamount - ((float)$totalamount * (float)$totaldiscount / 100);
-                            echo $totalamount;
+                            echo "Rs. ".$totalamount;
                         @endphp
                     @else
-                    {{$totalamount}}
+                    Rs. {{$totalamount}}
                     @endif
                  
 
@@ -187,32 +228,34 @@
         </tbody>
     </table>
    
-    <div style="text-align: center; margin-top: 50px;">
-    <table>
-        <tbody>
-            <tr>
-                <td style="width: 50%;">
-                    <div style="margin-left: 70px; text-align: center"> <!-- Adjust margin as needed -->
-                        <p>..................................</p>
-                        <p>Authorized</p>
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div style="margin-left: 300px; text-align: center" > <!-- Adjust margin as needed -->
-                        <p>..................................</p>
-                        <p>Customer Signature</p>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    </div>
-      
+    
     
       
    
     
     <div class="footer">
+
+        <div style="text-align: center; margin-top: 50px;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="width: 50%;">
+                            <div style="margin-left: 70px; text-align: center"> <!-- Adjust margin as needed -->
+                                <p>..................................</p>
+                                <p>Authorized</p>
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div style="margin-left: 300px; text-align: center" > <!-- Adjust margin as needed -->
+                                <p>..................................</p>
+                                <p>Customer Signature</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+              
        
         <p>ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT PAYEE ONLY.”
 

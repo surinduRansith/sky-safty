@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #333;
+        }
+        .header, .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-bottom: 10px;
+        }
+
+        .invoice-details{
+            position: absolute;
+            top: 80px;
+            right: 0;
+             width: 200px;
+            height: 100px;
+           
+        }
+
+         .customer-details, .item-details {
+            margin-top: 15px;
+        }
+        .invoice-details {
+            text-align: right;
+        }
+        
+        .item-table {
+            width: 100%;
+           
+            margin-top: 20px;
+        }
+        .item-table th, .item-table td {
+           
+            padding: 8px;
+            text-align: left;
+        }
+       
+
+        .total {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Invoice</h1>
+    </div>
+    <div class="invoice-details">
+        <table>
+            <tbody>
+         @foreach ($orderbills as $index => $orderbill)
+                <tr>
+                   <td>Invoice No</td>
+                   <td>:</td>
+                   <td>{{$orderbill['id']}}</td> 
+                </tr>
+                <tr>
+                    <td>Invoice Date</td>
+                    <td>:</td>
+                    <td>{{$orderbill['invoicedate']}}</td> 
+                 </tr>
+                 <tr>
+                    <td>Payment Terms</td>
+                    <td>:</td>
+                    <td>{{$orderbill['paymentmethod']}}</td> 
+                 </tr>
+                 <tr>
+                    <td>Payment Due</td>
+                    <td>:</td>
+                    <td>{{$orderbill['duedate']}}</td> 
+                 </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="customer-details">
+        <table>
+            <tbody>
+         @foreach ($customerdetails as  $customer)
+                <tr>
+                   <td>Customer Name</td>
+                   <td>:</td>
+                   <td>{{$customer->company}}</td> 
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td>:</td>
+                    <td>{{$customer->address}}</td> 
+                 </tr>
+                 <tr>
+                    <td>Delivery Addrewss</td>
+                    <td>:</td>
+                    <td>{{$customer->address}}</td> 
+                 </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @php
+    $subtotal = 0;
+    $totalamount = 0;
+    $totaldiscount = 0;
+    @endphp
+    <table class="item-table">
+        <thead>
+            <tr>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Discount</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($orderitems as $index => $orderitem)
+            <tr>
+                <td>{{$orderitem['stock_id']}}</td>
+                <td>{{$orderitem['description']}}</td>
+                <td>{{$orderitem['quantity']}}</td>
+                <td>{{$orderitem['unit_price']}}</td>
+                <td>{{$orderitem['discount']}}</td>
+                <td>
+                    @if ($orderitem['discount'] > 0)
+                    @php
+                        
+                        $subtotal = ((float)$orderitem['quantity'] * (float)$orderitem['unit_price']) - ((float)$orderitem['quantity'] * (float)$orderitem['unit_price'] * (float)$orderitem['discount'] / 100);
+                        echo $subtotal;
+                        $totalamount += ((float)$orderitem['quantity'] * (float)$orderitem['unit_price']) - ((float)$orderitem['quantity'] * (float)$orderitem['unit_price'] * (float)$orderitem['discount'] / 100);
+                    @endphp
+                    @else
+                    @php
+                        
+                        $subtotal = (float)$orderitem['quantity'] * (float)$orderitem['unit_price'];
+                        $totalamount += (float)$orderitem['quantity'] * (float)$orderitem['unit_price'];
+                        echo $subtotal;
+                    @endphp
+                    @endif 
+                   
+                </td>
+            </tr>
+           
+            @php
+                $totaldiscount = $orderitem['total_discount'];
+            @endphp
+            @endforeach
+            
+            <tr class="total">
+                <td ></td>
+                <td ></td>
+                <td ></td>
+                <td ></td>
+                <td >Total Discount</td>
+                <td>
+                 {{$totaldiscount}}
+
+                </td>
+            </tr>
+
+            <tr class="total">
+                <td ></td>
+                <td ></td>
+                <td ></td>
+                <td ></td>
+                <td >Total</td>
+                <td>
+                    @if ($totaldiscount > 0)
+                        @php
+
+                            $totalamount=(float)$totalamount - ((float)$totalamount * (float)$totaldiscount / 100);
+                            echo $totalamount;
+                        @endphp
+                    @else
+                    {{$totalamount}}
+                    @endif
+                 
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+   
+    <div style="text-align: center; margin-top: 50px;">
+    <table>
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <div style="margin-left: 70px; text-align: center"> <!-- Adjust margin as needed -->
+                        <p>..................................</p>
+                        <p>Authorized</p>
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div style="margin-left: 300px; text-align: center" > <!-- Adjust margin as needed -->
+                        <p>..................................</p>
+                        <p>Customer Signature</p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+      
+    
+      
+   
+    
+    <div class="footer">
+       
+        <p>ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT PAYEE ONLY.”
+
+            For exchange, please submit the goods along with the invoice within 7 working days.</p>
+    </div>
+</body>
+</html>

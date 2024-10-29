@@ -20,8 +20,6 @@ return new class extends Migration
             $table->integer('quantity');
             $table->float('unit_price');
             $table->float('discount');
-            $table->date('invoicedate');
-            $table->date('duedate')->nullable();
             $table->float('total_discount');
         });
     }

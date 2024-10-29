@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceCreate extends Component
 {
@@ -48,7 +49,8 @@ public $customerid;
     public $invoicedate;
     #[Rule('required')]
     public $duedate;
-    
+    public $orderbills;
+    public $orderitems;
     //#[Rule('required|in:30 Day Credit,COD')]
   public $paymentmethod;
     public function mount()
@@ -119,12 +121,17 @@ public $customerid;
             return;
 
         }
-    
+
+        //pdf generate customer details
+        $customerdetails = Customer::all()->where('id','=',$this->customerid);
+
         // Create the order with customer_id and invoice id
         $order = Order::create([
             'id' => $this->invoiceid,
             'customer_id' => $this->customerid,
+            'invoicedate' => $this->invoicedate,
             'paymentmethod' => $this->paymentmethod,
+            'duedate' => $this->duedate,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -138,17 +145,33 @@ public $customerid;
                 'unit_price' => $item['unitprice'],
                 'discount' => $item['discount'],
                 'total_discount' => $this->totaldiscount,
-                'invoicedate' => $this->invoicedate,
-                'duedate' => $this->duedate,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
         }
+
+    
     
         // Clear the items after saving
-        $this->reset(['invoiceitems','company','address','customerid','paymentmethod']);
+       $this->reset(['invoiceitems','company','address','customerid','paymentmethod','duedate']);
 
         session()->flash('success', 'Order saved successfully.');
+ 
+         //pdf generate bill and item details
+        $this->orderbills= Order::all()->where('id','=',$this->invoiceid);
+        $this->orderitems= OrderItem::all()->where('order_id','=',$this->invoiceid);
+       
+        $data=[
+             'orderbills'=>$this->orderbills,
+             'orderitems'=>$this->orderitems,
+            'customerdetails'=>$customerdetails
+        ];
+
+        $pdf=Pdf::loadView('orders.invoice-pdf',$data);
+
+        return response()->streamDownload(function() use($pdf){
+            echo $pdf->stream();
+        },'invoice.pdf');
     }
     
 }

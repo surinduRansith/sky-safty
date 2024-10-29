@@ -188,6 +188,10 @@
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
                         Payment Due: <input type="date" wire:model="duedate" class="grow" placeholder="Phone Number" />
                       </label>
+                    
+                  
+
+                      
                      
                 </div>
                 

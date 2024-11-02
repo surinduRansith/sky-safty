@@ -54,6 +54,7 @@ class InvoiceCreate extends Component
     public $orderitems;
     //#[Rule('required|in:30 Day Credit,COD')]
     public $paymentmethod;
+    public $deliveryAddress;
 
     public $sizede;
     public function mount()
@@ -113,7 +114,8 @@ class InvoiceCreate extends Component
         $this->company = $customerdetails->company;
         $this->address = $customerdetails->address;
         $this->customerid = $customerdetails->id;
-
+        $this->deliveryAddress = $customerdetails->address;
+        
         $this->reset('customersearch');
         $this->customers = [];
         
@@ -149,9 +151,11 @@ class InvoiceCreate extends Component
 
     return true; // Validation passed, continue with order creation
 }
+
+
     public function save()
     {
-     
+       //dd($this->deliveryAddress);
         
         if (!$this->validateOrder()) {
             return; // Stop if validation fails
@@ -170,6 +174,7 @@ class InvoiceCreate extends Component
             'invoicedate' => $this->invoicedate,
             'paymentmethod' => $this->paymentmethod,
             'duedate' => $this->duedate,
+            'deliveryaddress' => $this->deliveryAddress,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -190,17 +195,17 @@ class InvoiceCreate extends Component
             
 
             // Assuming $item['itemcode'] and $item['sizesselect'] are defined
-$size = Size::where('stock_id', $item['id'])
-->where('size', $item['sizesselect'])
-->first(); // Get the size record
+                $size = Size::where('stock_id', $item['id'])
+                    ->where('size', $item['sizesselect'])
+                ->first(); // Get the size record
 
-if ($size && $size->quantity >= $item['qty']) {
-// Decrease quantity safely
-$size->decrement('quantity', $item['qty']); 
-} else {
-// Handle the case where there's not enough quantity
-session()->flash('error', 'Not enough quantity available for the selected size.');
-}
+                    if ($size && $size->quantity >= $item['qty']) {
+                    // Decrease quantity safely
+                $size->decrement('quantity', $item['qty']); 
+                } else {
+                        // Handle the case where there's not enough quantity
+                        session()->flash('error', 'Not enough quantity available for the selected size.');
+                    }
 
        }
 
@@ -223,7 +228,8 @@ session()->flash('error', 'Not enough quantity available for the selected size.'
         $data=[
              'orderbills'=>$this->orderbills,
              'orderitems'=>$this->orderitems,
-            'customerdetails'=>$customerdetails
+            'customerdetails'=>$customerdetails,
+            'deliveryAddress'=>$this->deliveryAddress
         ];
 
         $pdf=Pdf::loadView('orders.invoice-pdf',$data);

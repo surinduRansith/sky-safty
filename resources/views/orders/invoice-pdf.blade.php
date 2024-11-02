@@ -29,23 +29,23 @@
             position: absolute;
             top: 80px;
             right: 0;
-             width: 200px;
+             width: 210px;
             height: 100px;
            
         }
 
          .customer-details, .item-details {
-            margin-top: 15px;
+            margin-top: 10px;
         }
         .invoice-details {
-            margin-top: 200px;
+            margin-top: 175px;
             text-align: right;
         }
         
         .item-table {
             width: 100%;
            
-            margin-top: 20px;
+            margin-top: 40px;
         }
         .item-table th, .item-table td {
            
@@ -125,14 +125,19 @@
                     <td>{{$customer->address}}</td> 
                  </tr>
                  <tr>
-                    <td>Delivery Addrewss</td>
-                    <td>:</td>
-                    <td>{{$customer->address}}</td> 
+                     <td>Delivery Addrewss</td>
+                     <td>:</td>
+          
+                    <td>{{$deliveryAddress}}</td> 
+            
+                    
                  </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    
     @php
     $subtotal = 0;
     $totalamount = 0;

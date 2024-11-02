@@ -110,9 +110,9 @@
 @endif
     
         
-       
-<div class="relative max-w-md ">
-    <input
+  <div class="grid grid-cols-2 gap-4 pt-1 px-4">
+    <div class="relative max-w-md ">
+        <input
         type="text"
         class="input input-bordered flex-grow flex items-center w-full mb-4 gap-2 input-sm"
         placeholder="Search Customer..."
@@ -143,28 +143,43 @@
             @endif
         </div>
     @endif
+ 
+       
 </div>
+<div>  
+    <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
+    Invoice ID : <span class="text-white-500">{{ $invoiceid }}</span>
+  </label>
+</div>
+    </div>     
+
 
     
             
             
             <div class="grid grid-cols-2 gap-4 pt-1 px-4 ">
-                <div>  
-                    <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
-                    Invoice ID : <span class="text-white-500">{{ $invoiceid }}</span>
-                  </label>
-                </div>
+             
                 <div>
-                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
+                                    
+
+                  <label class="input input-bordered flex items-center gap-2 input-sm">
+                   Name :
                     <input type="text" wire:model="company" class="grow" placeholder="Company Name" />
                   </label>
                   @error('company') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
                 <div>
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
+                        Address :
                         <input type="text" wire:model="address" class="grow" placeholder="Company Address" />
                       </label>
                       @error('address') <span class="text-red-500">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
+                        Delivery :<input type="text" wire:model="deliveryAddress" class="grow" placeholder="Delivery Address" />
+                      </label>
+                      @error('deliveryAddress') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
                 <div>
                     <select wire:model="paymentmethod" class="select select-sm select-bordered w-full max-w-xs">

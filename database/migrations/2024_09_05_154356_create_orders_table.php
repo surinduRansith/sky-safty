@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('paymentmethod');
             $table->date('invoicedate');
             $table->date('duedate')->nullable();
+            $table->string('deliveryaddress');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
         });
     }

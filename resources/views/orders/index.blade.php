@@ -4,8 +4,8 @@
         <h2 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-200 mb-6">
             {{ __('Invoice') }}
         </h2>
-                   <livewire:invoice-create />
-        </div>
+        <livewire:invoice-create />
     </div>
-    
+    </div>
+
 </x-app-layout>

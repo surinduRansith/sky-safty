@@ -4,8 +4,8 @@
         <h2 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-200 mb-6">
             {{ __('Quotation') }}
         </h2>
-                   <livewire:quotation-create />
-        </div>
+        <livewire:quotation-create />
     </div>
-    
+    </div>
+
 </x-app-layout>

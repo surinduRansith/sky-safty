@@ -1,8 +1,9 @@
 <div>
     <label class="input input-bordered flex items-center gap-2 mb-4 max-w-md  ">
-        <input type="text" wire:model.live.debounce.300ms="search" class="grow" placeholder="Customer Name Or Company" />
-      </label>
-      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <input type="text" wire:model.live.debounce.300ms="search" class="grow"
+            placeholder="Customer Name Or Company" />
+    </label>
+    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead class="bg-gray-50 dark:bg-gray-700">
             <tr>
                 <th class="px-6 py-3 text-left">
@@ -59,10 +60,10 @@
                         {{ $customer['phone'] }}
                     </td>
                     <td class="px-6 py-4">
-                        <button wire:click="deleteCustomer({{ $customer['id']  }})"
+                        <button wire:click="deleteCustomer({{ $customer['id'] }})"
                             class="inline-flex items-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
                             {{ __('Delete') }}
-                           
+
                         </button>
                     </td>
                 </tr>
@@ -70,5 +71,5 @@
         </tbody>
     </table>
     <br>
-    {{$customers->links()}}
+    {{ $customers->links() }}
 </div>

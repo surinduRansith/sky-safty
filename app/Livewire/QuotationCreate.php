@@ -6,6 +6,7 @@ namespace App\Livewire;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\quotation;
 use App\Models\Size;
 use App\Models\Stock;
 
@@ -39,7 +40,7 @@ class QuotationCreate extends Component
 
     public $customers;
 
-    public $invoiceid;
+    public $quotatoinId;
 
     public $customerid;
 
@@ -55,17 +56,44 @@ class QuotationCreate extends Component
     public $orderbills;
     public $orderitems;
     //#[Rule('required|in:30 Day Credit,COD')]
-    public $paymentmethod;
-
+    public $paymentmethod1;
+    
+    public $quotationYear;
     public $sizede;
     public function mount()
     {
+        $this->setDueDate();
+     
         // Set the current date as the default for invoicedate
         $this->invoicedate = now()->format('Y-m-d');
-        $this->duedate = now()->addDays(30)->format('Y-m-d');
+
+        $this->duedate = now()->addDays(7)->format('Y-m-d');
+        $this->quotationYear = now()->format('Y');
         $this->resetserach();
+        $this->quotatoinId =$this->quotationYear."/".DB::table('quotations')->max('id')+1 ;
+
+
+       
+
+      
     }
 
+    public function updatedPaymentmethod1($value)
+{
+    // Update the due date when the payment method changes
+    $this->setDueDate();
+}
+
+private function setDueDate()
+{
+    if($this->paymentmethod1 == '7 Day Credit'){
+        $this->duedate = now()->addDays(7)->format('Y-m-d');
+    }elseif($this->paymentmethod1 == '14 Day Credit'){
+        $this->duedate = now()->addDays(14)->format('Y-m-d');
+    }
+}
+
+    
 
     public function resetserach()
     {
@@ -87,12 +115,14 @@ class QuotationCreate extends Component
         $this->invoiceitems[] = [
             'id' => $this->itemdetails->id,
             'itemcode' => $this->itemdetails->code,
+            'description' => $this->itemdetails->description,
+            'image'=> $this->itemdetails->image,
             'itemname' => $this->itemdetails->name,
             'qty' => '1',
             'unitprice' => '0',
             'discount' => '0',
             'sizes' => $this->itemdetails->sizes,
-            'sizesselect' => ''
+            
 
 
         ];
@@ -128,22 +158,25 @@ class QuotationCreate extends Component
     {
         $errors = []; // Initialize an empty array to hold error messages
 
-        // Check if sizes are selected for each item
-        foreach ($this->invoiceitems as $item) {
-            if (empty($item['sizesselect'])) {
-                $errors['sizesselect'] = 'Please select a size before saving the order.';
-                break; // Stop the loop if one item is missing a size
-            }
-        }
+     
 
         // Check if customer ID exists
         if (empty($this->customerid)) {
-            $errors['customer'] = 'Please select a customer before saving the order.';
+            $errors['customer'] = 'Please select a customer before saving the quotation.';
         }
 
         // Check if payment method is selected
-        if (empty($this->paymentmethod)) {
-            $errors['payment'] = 'Please select a payment method before saving the order.';
+        if ($this->paymentmethod1=='Select Valid Period') {
+            $errors['payment'] = 'Please select a payment method before saving the quotation.';
+        }
+
+        foreach ($this->invoiceitems as $item) {
+            if($item['unitprice'] < 0){
+                $errors['unitprice'] = 'Unit Price cannot be negative before saving the quotation.';
+            }
+            if($item['qty'] < 0){
+                $errors['qty'] = 'Quantity cannot be negative before saving the quotation.';
+            }
         }
 
         // Flash error messages to the session if there are any
@@ -157,86 +190,62 @@ class QuotationCreate extends Component
     public function save()
     {
 
-
-        if (!$this->validateOrder()) {
-            return; // Stop if validation fails
+        if($this->paymentmethod1 == '7 Day Credit'){
+            $this->duedate = now()->addDays(7)->format('Y-m-d');
+        }elseif($this->paymentmethod1 == '14 Day Credit'){
+            $this->duedate = now()->addDays(14)->format('Y-m-d');
+            
         }
-        foreach ($this->invoiceitems as $item) {
-
+      
+     
+        if (!$this->validateOrder()) {
+            return; 
+        }
+       
+        
+   
+      
 
 
             //pdf generate customer details
             $customerdetails = Customer::all()->where('id', '=', $this->customerid);
 
-
-            $order = Order::create([
-                'id' => $this->invoiceid,
-                'customer_id' => $this->customerid,
-                'invoicedate' => $this->invoicedate,
-                'paymentmethod' => $this->paymentmethod,
-                'duedate' => $this->duedate,
-                'created_at' => now(),
-                'updated_at' => now(),
+        
+        
+            $qutation = quotation::create([
+                'code' => $this->quotatoinId,
             ]);
-
-            foreach ($this->invoiceitems as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'stock_id' => $item['id'],
-                    'sizes' => $item['sizesselect'],
-                    'quantity' => $item['qty'],
-                    'unit_price' => $item['unitprice'],
-                    'discount' => $item['discount'],
-                    'total_discount' => $this->totaldiscount,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-
-
-
-                // Assuming $item['itemcode'] and $item['sizesselect'] are defined
-                $size = Size::where('stock_id', $item['id'])
-                    ->where('size', $item['sizesselect'])
-                    ->first(); // Get the size record
-
-                if ($size && $size->quantity >= $item['qty']) {
-                    // Decrease quantity safely
-                    $size->decrement('quantity', $item['qty']);
-                } else {
-                    // Handle the case where there's not enough quantity
-                    session()->flash('error', 'Not enough quantity available for the selected size.');
-                }
-
-            }
-
-
 
 
             // Clear the items after saving
-            $this->reset(['invoiceitems', 'company', 'address', 'customerid', 'paymentmethod']);
+            //$this->reset(['invoiceitems', 'company', 'address', 'customerid', 'paymentmethod']);
 
-            session()->flash('success', 'Order saved successfully.');
+            session()->flash('success', 'Quotation saved successfully.');
 
             //pdf generate bill and item details
-            $this->orderbills = Order::all()->where('id', '=', $this->invoiceid);
-            $this->orderitems = OrderItem::where('order_id', '=', $this->invoiceid)->get();
+            $this->orderbills = quotation::where('code', '=', $this->quotatoinId)->get();
+            $this->orderitems = OrderItem::where('order_id', '=', $this->quotatoinId)->get();
 
 
 
 
 
             $data = [
-                'orderbills' => $this->orderbills,
+                'quotationitems' => $this->invoiceitems,
+                'code' => $this->quotatoinId,
+            'quoteDate' => $this->invoicedate,
+            'dueDate' => $this->duedate,
+            'method' => $this->paymentmethod1,
                 'orderitems' => $this->orderitems,
                 'customerdetails' => $customerdetails
             ];
 
-            $pdf = Pdf::loadView('orders.invoice-pdf', $data);
+            $pdf = Pdf::loadView('quotation.quotationPdf', $data)->setPaper('a4', 'landscape');
 
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->stream();
-            }, 'invoice.pdf');
-        }
+            }, 'Quote.pdf');
+        
 
     }
     public function render()
@@ -248,8 +257,8 @@ class QuotationCreate extends Component
                 ->toArray();
         }
 
-
-        $this->invoiceid = DB::table('orders')->max('id') + 1;
+        
+        
         return view('livewire.quotation-create', [
             'stocks' => Stock::latest()
                 ->where('name', 'like', '%' . $this->search . '%')

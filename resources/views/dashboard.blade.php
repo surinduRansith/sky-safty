@@ -20,7 +20,7 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('quotation.create') }}">
             <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
                 <figure>
                     <img class="h-64 w-64 object-center" src="{{ asset('images/quoteicon.jpg') }}"

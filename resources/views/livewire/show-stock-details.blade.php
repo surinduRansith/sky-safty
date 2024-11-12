@@ -4,7 +4,7 @@
 
 
     @if ($hidden == '')
-        <div class="card card-compact bg-base-100 w-[50%]  shadow-xl pt-4">
+        <div class="card card-compact bg-base-100 w-96  shadow-xl pt-4">
             <!-- Image -->
             <figure>
 
@@ -63,7 +63,7 @@
             </div>
         </div>
     @else
-        <div class="card card-compact bg-base-100 w-[50%] shadow-xl pt-4">
+        <div class="card card-compact bg-base-100 w-96 shadow-xl pt-4">
             <!-- Image -->
             <figure>
 
@@ -120,11 +120,15 @@
                     @foreach ($sizes as $index => $size)
                         <div class="flex items-center mb-2">
                             <input type="text" wire:model.defer="sizes.{{ $index }}.size" placeholder="Size"
-                                class="border rounded p-2 mr-2 w-25">
+                                class="border rounded p-2 mr-2 w-20">
                             <input type="number" wire:model.defer="sizes.{{ $index }}.quantity"
-                                placeholder="Quantity" class="border rounded p-2 mr-2 w-25">
+                                placeholder="Quantity" class="border rounded p-2 mr-2 w-20">
                             <button type="button" wire:click="removeSize({{ $index }})"
-                                class="btn btn-error text-white btn-sm">Remove</button>
+                                class="text-red-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z" clip-rule="evenodd" />
+                                  </svg>
+                            </button>
                         </div>
 
                         @error('sizes.' . $index . '.size')

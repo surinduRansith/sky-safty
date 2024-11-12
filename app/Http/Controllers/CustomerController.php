@@ -28,11 +28,11 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCustomerRequest $request)
-    {
-        $customer = Customer::create($request->validated());
-        return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
-    }
+    // public function store(StoreCustomerRequest $request)
+    // {
+    //     $customer = Customer::create($request->validated());
+    //     return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
+    // }
 
     /**
      * Display the specified resource.
@@ -45,19 +45,19 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer $customer)
-    {
-        return view('customers.edit', compact('customer'));
-    }
+    // public function edit(Customer $customer)
+    // {
+    //     return view('customers.edit', compact('customer'));
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
-    {
-        $customer->update($request->validated());
-        return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
-    }
+    // public function update(UpdateCustomerRequest $request, Customer $customer)
+    // {
+    //     $customer->update($request->validated());
+    //     return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
+    // }
 
     /**
      * Remove the specified resource from storage.

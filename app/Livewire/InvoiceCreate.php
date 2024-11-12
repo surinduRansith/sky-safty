@@ -20,19 +20,19 @@ class InvoiceCreate extends Component
 
     use WithPagination;
     public $search;
-    public $stock;
+    public  $stock;
 
     public $itemdetails;
-    public $itemtotal = 0;
+    public $itemtotal=0;
     public $subtotal = 0;
     public $totaldiscount = 0;
 
-    public $totalAmount = 0;
+    public $totalAmount = 0; 
 
 
-    public $invoiceitems = [];
+    public $invoiceitems=[];
 
-
+    
     public $customersearch;
 
     public $customers;
@@ -64,207 +64,222 @@ class InvoiceCreate extends Component
         $this->duedate = now()->addDays(30)->format('Y-m-d');
         $this->resetserach();
     }
-
+    
 
     public function resetserach()
     {
         $this->customersearch = '';
         $this->customers = [];
-
+        
     }
-
-
-    public function addItem($stockcode)
-    {
+    
+    
+    public function addItem($stockcode){
 
         $this->stock = $stockcode;
 
         $this->itemdetails = Stock::findOrFail($this->stock);
 
+        
+        
+            $this->invoiceitems[] = [
+                'id'=>$this->itemdetails->id,
+                'itemcode'=> $this->itemdetails->code,
+                'itemname'=>$this->itemdetails->name,
+                'qty'=>'1',
+                'unitprice'=>'0',
+                'discount'=>'0',
+                'sizes'=>$this->itemdetails->sizes,
+                'sizesselect'=>''
+                
 
-
-        $this->invoiceitems[] = [
-            'id' => $this->itemdetails->id,
-            'itemcode' => $this->itemdetails->code,
-            'itemname' => $this->itemdetails->name,
-            'qty' => '1',
-            'unitprice' => '0',
-            'discount' => '0',
-            'sizes' => $this->itemdetails->sizes,
-            'sizesselect' => ''
-
-
-        ];
-
-
-
-
+                ];
+        
+            
+  
+     
     }
 
-    public function removeItem($key)
-    {
+    public function removeItem($key){
 
         unset($this->invoiceitems[$key]);
     }
+   
+   
+  
+    public function setcustomer($customerid){
 
-
-
-    public function setcustomer($customerid)
-    {
-
-        $customerdetails = Customer::findOrFail($customerid);
+        $customerdetails  = Customer::findOrFail($customerid);
 
         $this->company = $customerdetails->company;
         $this->address = $customerdetails->address;
         $this->customerid = $customerdetails->id;
         $this->deliveryAddress = $customerdetails->address;
-
+        
         $this->reset('customersearch');
         $this->customers = [];
-
+        
     }
-
+  
     public function validateOrder()
-    {
-        $errors = []; // Initialize an empty array to hold error messages
+{
+    $errors = []; // Initialize an empty array to hold error messages
 
-        // Check if sizes are selected for each item
-        foreach ($this->invoiceitems as $item) {
-            if (empty($item['sizesselect'])) {
-                $errors['sizesselect'] = 'Please select a size before saving the order.';
-                break; // Stop the loop if one item is missing a size
-            }
+    // Check if sizes are selected for each item
+    foreach ($this->invoiceitems as $item) {
+        if (empty($item['sizesselect'])) {
+            $errors['sizesselect'] = 'Please select a size before saving the order.';
+            break; // Stop the loop if one item is missing a size
         }
-
-        // Check if customer ID exists
-        if (empty($this->customerid)) {
-            $errors['customer'] = 'Please select a customer before saving the order.';
-        }
-
-        // Check if payment method is selected
-        if (empty($this->paymentmethod)) {
-            $errors['payment'] = 'Please select a payment method before saving the order.';
-        }
-
-        // Flash error messages to the session if there are any
-        if (!empty($errors)) {
-            session()->flash('errors', $errors);
-            return false; // Stop further processing if there are errors
-        }
-
-        return true; // Validation passed, continue with order creation
     }
+
+    // Check if customer ID exists
+    if (empty($this->customerid)) {
+        $errors['customer'] = 'Please select a customer before saving the order.';
+    }
+
+    // Check if payment method is selected
+    if (empty($this->paymentmethod)) {
+        $errors['payment'] = 'Please select a payment method before saving the order.';
+    }
+
+    foreach ($this->invoiceitems as $item) {
+        if($item['unitprice'] < 0){
+            $errors['unitprice'] = 'Unit Price cannot be negative before saving the quotation.';
+        }
+        if($item['discount'] < 0){
+            $errors['discount'] = 'Discount cannot be negative before saving the quotation.';
+        }
+        if($item['discount'] > 100){
+            $errors['discount'] = 'Discount cannot be more than 100% before saving the quotation.';
+        }
+        if($item['qty'] < 0){
+            $errors['qty'] = 'Quantity cannot be negative before saving the quotation.';
+        }
+    }
+    
+    if($this->totaldiscount < 0){
+        $errors['totaldiscount'] = 'Total Discount cannot be negative before saving the quotation.';
+    }
+    // Flash error messages to the session if there are any
+    if (!empty($errors)) {
+        session()->flash('errors', $errors);
+        return false; // Stop further processing if there are errors
+    }
+
+    return true; // Validation passed, continue with order creation
+}
 
 
     public function save()
     {
-        //dd($this->deliveryAddress);
-
+       //dd($this->deliveryAddress);
+        
         if (!$this->validateOrder()) {
             return; // Stop if validation fails
         }
         foreach ($this->invoiceitems as $item) {
+        
+           
 
-
-
-            //pdf generate customer details
-            $customerdetails = Customer::all()->where('id', '=', $this->customerid);
-
-
-            $order = Order::create([
-                'id' => $this->invoiceid,
-                'customer_id' => $this->customerid,
-                'invoicedate' => $this->invoicedate,
-                'paymentmethod' => $this->paymentmethod,
-                'duedate' => $this->duedate,
-                'deliveryaddress' => $this->deliveryAddress,
+        //pdf generate customer details
+        $customerdetails = Customer::all()->where('id','=',$this->customerid);
+       
+      
+        $order = Order::create([
+            'id' => $this->invoiceid,
+            'customer_id' => $this->customerid,
+            'invoicedate' => $this->invoicedate,
+            'paymentmethod' => $this->paymentmethod,
+            'duedate' => $this->duedate,
+            'deliveryaddress' => $this->deliveryAddress,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    
+        foreach ($this->invoiceitems as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'stock_id' => $item['id'],
+                'sizes' => $item['sizesselect'],
+                'quantity' => $item['qty'],
+                'unit_price' => $item['unitprice'],
+                'discount' => $item['discount'],
+                'total_discount' => $this->totaldiscount,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
-            foreach ($this->invoiceitems as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'stock_id' => $item['id'],
-                    'sizes' => $item['sizesselect'],
-                    'quantity' => $item['qty'],
-                    'unit_price' => $item['unitprice'],
-                    'discount' => $item['discount'],
-                    'total_discount' => $this->totaldiscount,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+            
 
-
-
-                // Assuming $item['itemcode'] and $item['sizesselect'] are defined
+            // Assuming $item['itemcode'] and $item['sizesselect'] are defined
                 $size = Size::where('stock_id', $item['id'])
                     ->where('size', $item['sizesselect'])
-                    ->first(); // Get the size record
+                ->first(); // Get the size record
 
-                if ($size && $size->quantity >= $item['qty']) {
+                    if ($size && $size->quantity >= $item['qty']) {
                     // Decrease quantity safely
-                    $size->decrement('quantity', $item['qty']);
+                $size->decrement('quantity', $item['qty']); 
                 } else {
-                    // Handle the case where there's not enough quantity
-                    session()->flash('error', 'Not enough quantity available for the selected size.');
-                }
+                        // Handle the case where there's not enough quantity
+                        session()->flash('error', 'Not enough quantity available for the selected size.');
+                    }
 
-            }
+       }
 
+        
+    
+    
+        // Clear the items after saving
+       $this->reset(['invoiceitems','company','address','customerid','paymentmethod']);
 
+        session()->flash('success', 'Order saved successfully.');
+ 
+         //pdf generate bill and item details
+        $this->orderbills= Order::all()->where('id','=',$this->invoiceid);
+        $this->orderitems = OrderItem::where('order_id', '=', $this->invoiceid)->get();
 
+       
+        
 
-            // Clear the items after saving
-            $this->reset(['invoiceitems', 'company', 'address', 'customerid', 'paymentmethod']);
+    
+        $data=[
+             'orderbills'=>$this->orderbills,
+             'orderitems'=>$this->orderitems,
+            'customerdetails'=>$customerdetails,
+            'deliveryAddress'=>$this->deliveryAddress
+        ];
 
-            session()->flash('success', 'Order saved successfully.');
+        $pdf=Pdf::loadView('orders.invoice-pdf',$data);
 
-            //pdf generate bill and item details
-            $this->orderbills = Order::all()->where('id', '=', $this->invoiceid);
-            $this->orderitems = OrderItem::where('order_id', '=', $this->invoiceid)->get();
-
-
-
-
-
-            $data = [
-                'orderbills' => $this->orderbills,
-                'orderitems' => $this->orderitems,
-                'customerdetails' => $customerdetails,
-                'deliveryAddress' => $this->deliveryAddress
-            ];
-
-            $pdf = Pdf::loadView('orders.invoice-pdf', $data);
-
-            return response()->streamDownload(function () use ($pdf) {
-                echo $pdf->stream();
-            }, 'invoice.pdf');
-        }
-
+        return response()->streamDownload(function() use($pdf){
+            echo $pdf->stream();
+        },'invoice.pdf');
     }
+    
+}
 
-
+  
     public function render()
     {
-        if ($this->customersearch != '') {
-            $this->customers = Customer::where('name', 'like', '%' . $this->customersearch . '%')
-                ->orWhere('company', 'like', '%' . $this->customersearch . '%')
-                ->get()
-                ->toArray();
-        }
+       if($this->customersearch!=''){
+        $this->customers = Customer::where('name', 'like', '%'.$this->customersearch.'%')
+        ->orWhere('company', 'like', '%' . $this->customersearch . '%')
+        ->get()
+        ->toArray();
+       }
 
 
-        $this->invoiceid = DB::table('orders')->max('id') + 1;
-
-        return view('livewire.invoice-create', [
+       $this->invoiceid = DB::table('orders')->max('id') + 1;
+       
+        return view('livewire.invoice-create',[
             'stocks' => Stock::latest()
-                ->where('name', 'like', '%' . $this->search . '%')
-                ->orWhere('code', 'like', '%' . $this->search . '%')
-                ->paginate(3),
-
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('code', 'like', '%' . $this->search . '%')
+            ->paginate(3),
+          
         ]);
 
-
+        
     }
 }

@@ -88,23 +88,16 @@
         </div>
         
         <div>
-           @if(session()->has('errors'))
+         
+
+@if(session()->has('errors'))
     @foreach(session('errors') as $error)
-    <div role="alert" class="alert alert-error mb-4 "  x-data="{ show: true }"
-    x-init="setTimeout(() => show = false, 5000)"
-    x-show="show">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 shrink-0 stroke-current"
-          fill="none"
-          viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <div role="alert" class="alert alert-error mb-4 p-2 text-sm" x-data="{ show: true }"
+         x-init="setTimeout(() => show = false, 5000)" x-show="show">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <span>{{ $error }}</span>
+        <span class="ml-2 text-gray">{{ $error }}</span>
     </div>
     @endforeach
 @endif
@@ -151,7 +144,7 @@
             <div class="grid grid-cols-2 gap-4 pt-1 px-4 ">
                 <div>  
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
-                    Invoice ID : <span class="text-white-500">{{ $invoiceid }}</span>
+                    Invoice ID : <span class="text-white-500">{{$quotatoinId }}</span>
                   </label>
                 </div>
                 <div>
@@ -167,13 +160,15 @@
                       @error('address') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
                 <div>
-                    <select wire:model="paymentmethod" class="select select-sm select-bordered w-full max-w-xs">
-                        <option  selected>Select Payment Method</option>
-                        <option value="30 Day Credit">30 Day Credit</option>
-                        <option value="COD">COD</option>
+                    <select wire:model.live="paymentmethod1" class="select select-sm select-bordered w-full max-w-xs">
+                        <option selected>Select Valid Period</option>
+                        <option value="7 Day Credit" >7 Day Credit</option>
+                        <option value="14 Day Credit">14 Day Credit</option>
+                        
                       </select>
-                      @error('paymentmethod') <span class="text-red-500">{{ $message }}</span> @enderror
+                      @error('paymentmethod1') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
+                
                 <div>
                    
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
@@ -222,9 +217,6 @@
                     {{ __('Stock Name') }}
                 </th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-                    {{ __('Stock Size') }}
-                </th>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ __('QTY') }}
                 </th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -259,28 +251,7 @@
                             
                        
                     </td>
-                    <td>
-                        <select wire:model="invoiceitems.{{ $index }}.sizesselect" class="select select-sm select-bordered w-full max-w-xs">
-                        
-                            <option selected>Select Size</option>
-                            @foreach ($stock['sizes'] as $sizeindex => $size)
-                            @if($size['quantity']==0)
-                            <option disabled value="{{ $size['size'] }}" class="bg-red-100 text-red-700 cursor-not-allowed font-semibold">
-                                {{ $size['size'] }} - Quantity is 0
-                            </option>
-                            @else
-                            <option value="{{ $size['size'] }}" class="text-white-800 font-medium">
-                                {{ $size['size'] }} - <span class="text-blue-600 font-semibold">{{ $size['quantity'] }} qty</span>
-                            </option>
-                            
-                            @endif
-                                                        
-               
-                            @endforeach
-                        </select>
-
-                       
-                    </td>
+                   
                         <td class="px-6 py-4">
                            
                           <input type="number" wire:model.live.debounce.300ms="invoiceitems.{{ $index }}.qty" class="w-16"  />
@@ -325,23 +296,15 @@
             @endforeach
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 transition ease-in-out duration-150">
 
-                <td class="px-6 py-4 " colspan="6"></td>
+                <td class="px-6 py-4 " colspan="5"></td>
                 <td class="px-6 py-4">Subtotal</td>
                 <td class="px-6 py-4">{{$subtotal}}</td>
                 <td ></td>
             </tr>
+
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 transition ease-in-out duration-150">
 
-                <td class="px-6 py-4 " colspan="6"></td>
-                <td class="px-6 py-4">Total Discount</td>
-                <td class="px-6 py-4">
-                <input type="number" wire:model.live.debounce.300ms="totaldiscount" class="w-24" />
-                </td>
-                <td ></td>
-            </tr>
-            <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 transition ease-in-out duration-150">
-
-                <td class="px-6 py-4 " colspan="6"></td>
+                <td class="px-6 py-4 " colspan="5"></td>
                 <td class="px-6 py-4">Total Amount</td>
                 <td class="px-6 py-4">
                    @if ($totaldiscount > 0)
@@ -356,7 +319,11 @@
             </tr>
         </tbody>
     </table>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" wire:click="save">Save</button>
+    <br>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" wire:click="save">
+            Quotation Create
+            <span class="loading loading-spinner text-primary" wire:loading></span>
+        </button>
             
 </div>
 @endif  

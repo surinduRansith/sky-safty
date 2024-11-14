@@ -25,6 +25,12 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <div class="flex justify-center">
+        <a href="/" wire:navigate>
+        <img src="{{ asset('images/logo.jpg') }}" alt="logo" class="rounded">\
+        </a>
+    </div>
+<br>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 

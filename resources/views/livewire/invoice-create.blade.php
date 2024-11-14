@@ -64,8 +64,12 @@
                             </td>
                             <td class="px-4 py-2">
                                 <button wire:click="addItem({{ $stock['id'] }})"
-                                    class="inline-flex items-center px-2 py-1 bg-red-600 text-white text-xs font-medium rounded hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
-                                    Add
+                                    class="rounded-full inline-flex items-center px-2 py-1 bg-red-600 text-white text-xs font-medium rounded hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                    
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11.2502 6C11.2502 5.58579 11.586 5.25 12.0002 5.25C12.4145 5.25 12.7502 5.58579 12.7502 6V11.2502H18.0007C18.4149 11.2502 18.7507 11.586 18.7507 12.0002C18.7507 12.4145 18.4149 12.7502 18.0007 12.7502H12.7502V18.0007C12.7502 18.4149 12.4145 18.7507 12.0002 18.7507C11.586 18.7507 11.2502 18.4149 11.2502 18.0007V12.7502H6C5.58579 12.7502 5.25 12.4145 5.25 12.0002C5.25 11.586 5.58579 11.2502 6 11.2502H11.2502V6Z" fill="#FFFFFF"/>
+                                        </svg>
+                                        
                                 </button>
                             </td>
                         </tr>
@@ -80,7 +84,7 @@
         <div>
             @if (session()->has('errors'))
                 @foreach (session('errors') as $error)
-                    <div role="alert" class="alert alert-error mb-4 " x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)"
+                    <div role="alert" class="alert alert-error mb-4 p-2 text-sm" x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)"
                         x-show="show">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
                             viewBox="0 0 24 24">
@@ -343,8 +347,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <button class="btn btn-error btn-sm"
-                                        wire:click="removeItem({{ $index }})">Remove</button>
+                                    <button class="btn btn-error btn-sm rounded-full"
+                                        wire:click="removeItem({{ $index }})">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                          </svg>
+                                           
+                                    </button>
                                 </td>
 
                             </tr>
@@ -383,8 +392,12 @@
                         </tr>
                     </tbody>
             </table>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                wire:click="save">Save</button>
+            <br>
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                wire:click="save">Save Invoice
+                <span class="loading loading-spinner text-primary" wire:loading></span>
+            
+            </button>
 
         </div>
     @endif

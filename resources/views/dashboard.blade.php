@@ -43,6 +43,17 @@
                 </div>
             </div>
         </a>
+        <a href="{{ route('report.show') }}">
+            <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
+                <figure>
+                    <img class="h-64 w-64 object-center" src="{{ asset('images/report.jpg') }}"
+                        alt="Report Details Icon" />
+                </figure>
+                <div class="card-body">
+                    <h1 class="text-center font-bold text-2xl">Reports</h1>
+                </div>
+            </div>
+        </a>
 
         <a href="{{ route('customers.index') }}">
             <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">

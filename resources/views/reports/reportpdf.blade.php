@@ -82,6 +82,7 @@
                     <td style="width: 500%;  text-align: left; padding-left: 20px;">
                         <h1 style="margin: 0; font-weight: bold;">Sky Safety Equipment</h1>
                        <h1>Report</h1>
+                       <h3>Start Date: {{ $startDateReport }}</h3><h3>End Date: {{ $endDateReport }}</h3>
                     </td>
                 </tr>
             </tbody>

@@ -70,6 +70,7 @@ class ReportShow extends Component
     }
 
     public function PdfReport(){
+
         $this->reports = OrderItem::select(
             'order_items.order_id',
             'order_items.created_at',
@@ -104,8 +105,13 @@ class ReportShow extends Component
         ->groupBy('order_items.order_id', 'orders.invoicedate')  // Group by order_id and invoicedate
         ->get();
 
+        
+
         $data=[
             'reports'=>$this->reports,
+            'startDateReport'=>$this->startDateReport,
+            'endDateReport'=>$this->endDateReport,
+
        
        ];
 

@@ -78,14 +78,22 @@ class StockCreateform extends Component
 
    
 
-        $stock = Stock::create($validate);
+        $stock = Stock::create(
+            [
+                'name' => $this->name,
+                'code' => $this->code,
+                'description' => $this->description,
+                'image' => $validate['image'],
+
+            ]
+        );
         
         
     
 
         // Create associated sizes
         foreach ($this->sizes as $size) {
-            $validate = $this->validate();
+            
             Size::create([
                 'stock_id' => $stock->id,
                 'size' => $size['size'],

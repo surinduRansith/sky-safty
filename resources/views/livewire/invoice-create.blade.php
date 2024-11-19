@@ -10,6 +10,17 @@
             <span>{{ session('success') }}done</span>
         </div>
     @endif
+    @if (session('errorsize'))
+    <div role="alert" class="alert alert-error mb-4 max-w-md" x-data="{ show: true }" x-init="setTimeout(() => show = false, 2000)"
+        x-show="show">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ session('errorsize') }}</span>
+    </div>
+@endif
     @if (session('errorquantity'))
         <div role="alert" class="alert alert-error mb-4 max-w-md" x-data="{ show: true }" x-init="setTimeout(() => show = false, 6000)"
             x-show="show">
@@ -133,7 +144,7 @@
                 </div>
                 <div>
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
-                        Invoice ID : <span class="text-white-500">{{ $invoiceid }}</span>
+                        Invoice NO : <span class="text-white-500">{{ $invoiceid }}</span>
                     </label>
                 </div>
             </div>
@@ -174,7 +185,7 @@
                     @enderror
                 </div>
                 <div>
-                    <select wire:model="paymentmethod" class="select select-sm select-bordered w-full max-w-xs">
+                    <select wire:model.live="paymentmethod" class="select select-sm select-bordered w-full max-w-xs">
                         <option selected>Select Payment Method</option>
                         <option value="30 Day Credit">30 Day Credit</option>
                         <option value="COD">COD</option>
@@ -186,15 +197,26 @@
                 <div>
 
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
-                        Invoice Date :<input type="date" wire:model="invoicedate" class="grow"
+                        Invoice Date :<input type="date" wire:model.live="invoicedate" class="grow"
                             placeholder="Phone Number" />
                     </label>
 
                 </div>
                 <div>
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
-                        Payment Due: <input type="date" wire:model="duedate" class="grow"
+                        Payment Due: <input type="date" disabled wire:model.live="duedate" class="grow"
                             placeholder="Phone Number" />
+                    </label>
+
+
+
+
+
+                </div>
+                <div>
+                    <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
+                        PO Number :<input type="text" wire:model="poNumber" class="grow"
+                            placeholder=" Please Enter PO Number" />
                     </label>
 
 

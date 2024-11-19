@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('invoicedate');
             $table->date('duedate')->nullable();
             $table->string('deliveryaddress');
+            $table->string('ponumber')->nullable();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
         });
     }

@@ -8,56 +8,64 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            font-size: 14px;
-            color: #333;
+    font-size: 15.96px;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure body takes full height of the viewport */
         }
 
         .header {
             text-align: center;
-            margin-top: 10px;
-            padding-bottom: 10px;
+            margin-top: 2px;
+            padding-bottom: 5px;
 
         }
 
         .footer {
-            text-align: center;
-            padding: 10px;
-            font-size: 14px;
-            position: fixed;
+       
+            position: absolute;
+            margin-top: auto;
+            margin-bottom: 5%
             width: 100%;
-            bottom: 0;
         }
 
         .invoice-details {
             position: absolute;
-            top: 80px;
+
             right: 0;
-            width: 210px;
-            height: 100px;
+            margin-top: 5px;
+            text-align: right;
         }
 
         .customer-details,
-        .item-details {
-            margin-top: 10px;
+        {
+        margin-top: 2px;
         }
 
-        .invoice-details {
-            margin-top: 200px;
-            text-align: right;
-        }
+
 
         .item-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 50px;
             border: 1px solid #333;
             /* Adds border around the entire table */
         }
 
         .item-table th,
+        {
+        padding: 8px;
+        text-align: center;
+        border: 1px solid #333;
+
+        }
+
         .item-table td {
             padding: 8px;
-            text-align: left;
+            text-align: center;
             border: 1px solid #333;
 
         }
@@ -67,56 +75,69 @@
         }
     </style>
 </head>
+<header>
+    <table>
+        <tbody>
+            <tr>
+                <td style="width: 40%;">
+                    <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image"
+                        style="width: 150px; height: auto;">
+                </td>
 
+                <td style="width: 500%;  text-align: left; padding-left: 20px;">
+                    <h1 style="margin: 0; font-weight: bold;">Sky Safety Equipment</h1>
+                    <h5 style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka
+                    </h5>
+                    <h5 style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</h5>
+                    <h5 style="margin: 0;">Business Reg. No: WD 21641</h5>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</header>
 <body>
-    <div class="header">
+    
 
-        <table>
-            <tbody>
-                <tr>
-                    <td style="width: 40%;">
-                        <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image"
-                            style="width: 150px; height: auto;">
-                    </td>
-
-                    <td style="width: 500%;  text-align: left; padding-left: 20px;">
-                        <h1 style="margin: 0; font-weight: bold;">Sky Safety Equipment</h1>
-                        <p style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka
-                        </p>
-                        <p style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</p>
-                        <p style="margin: 0;">Business Reg. No: WD 21641</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-
-        <h1>Sales Quotation</h1>
-    </div>
+        {{-- <h1>Sales Quotation</h1> --}}
     <div class="invoice-details">
 
         <table>
             <tbody>
+                <tr>
+                    <td></td>
+                    
+                    <td colspan="2"  style="font-weight: bold; font-size: 25px; width: 100%;">Sales Quotation</td>
+                </tr>
 
                 <tr>
-                    <td>Quotation No</td>
-                    <td>:</td>
-                    <td>{{ $code }}</td>
-                </tr>
-                <tr>
-                    <td>Quotation Date</td>
-                    <td>:</td>
+                    <td>Date</td>
+                    <td style="text-align: center">:</td>
                     <td>{{ $quoteDate }}</td>
                 </tr>
                 <tr>
-                    <td>Payment Terms</td>
-                    <td>:</td>
-                    <td>{{ $method }}</td>
+                    <td>Quotation No</td>
+                    <td style="text-align: center">:</td>
+                    <td>{{ $code }}</td>
                 </tr>
                 <tr>
-                    <td>Payment Due</td>
-                    <td>:</td>
+                    <td>Payment Terms</td>
+                    <td style="text-align: center">:</td>
+                    <td>{{ $paymentMethod }}</td>
+                </tr>
+                <tr>
+                    <td>Validity Period</td>
+                    <td style="text-align: center">:</td>
+                    <td>{{ $validityPeriod }}</td>
+                </tr>
+                <tr>
+                    <td>Valid To</td>
+                    <td style="text-align: center">:</td>
                     <td>{{ $dueDate }}</td>
+                </tr>
+                <tr>
+                    <td>Contact No</td>
+                    <td style="text-align: center">:</td>
+                    <td>{{ $contactNumber }}</td>
                 </tr>
 
             </tbody>
@@ -124,24 +145,29 @@
     </div>
     <div class="customer-details">
 
-        <h2>Submit To </h2>
+
         <table>
             <tbody>
+                <tr>
+                    <td colspan="3">
+                        <h3>Submited To </h3>
+                    </td>
+                </tr>
                 @foreach ($customerdetails as $customer)
                     <tr>
-                        <td>Customer Name</td>
-                        <td>:</td>
-                        <td>{{ $customer->company }}</td>
+                        <td>Company Name</td>
+                        <td style="text-align: center">:</td>
+                        <td style="font-weight: bold">{{ $customer->company }}</td>
                     </tr>
                     <tr>
                         <td>Address</td>
-                        <td>:</td>
-                        <td>{{ $customer->address }}</td>
+                        <td style="text-align: center">:</td>
+                        <td style="word-wrap: break-word; white-space: pre-wrap; max-width: 300px; font-weight: bold">{{ $customer->address }}</td>
                     </tr>
                     <tr>
                         <td>Attention</td>
-                        <td>:</td>
-                        <td>{{ $customer->name }}</td>
+                        <td style="text-align: center">:</td>
+                        <td style="font-weight: bold" > {{ $customer->name }}</td>
                     </tr>
                     <tr>
 
@@ -176,7 +202,7 @@
                 <tr>
 
 
-                    <td style="width: 20%; border: 1px solid #333; padding: 8px; text-align: left;">
+                    <td style="width: 25%; border: 1px solid #333; padding: 8px; text-align: left;">
                         <ul>
                             <li>{{ $quoteitem['itemcode'] }}</li>
                             @foreach (explode("\n", $quoteitem['description']) as $line)
@@ -217,10 +243,10 @@
                     </td>
 
                     <td><img src="{{ public_path('storage/' . $quoteitem['image']) }}"
-                            alt="Image for {{ $quoteitem['itemcode'] }}" style="width: 200px; height: 200px;" /></td>
+                            alt="Image for {{ $quoteitem['itemcode'] }}" style="width: 150px; height: 150px;" /></td>
 
                     <td>{{ $quoteitem['qty'] }}</td>
-                    <td>Rs.{{ $quoteitem['unitprice'] }}</td>
+                    <td>{{ number_format($quoteitem['unitprice'], 2) }}</td>
                     <td>{{ $quoteitem['discount'] }}</td>
                     <td>
                         @if ($quoteitem['discount'] > 0)
@@ -232,7 +258,7 @@
                                         (float) $quoteitem['unitprice'] *
                                         (float) $quoteitem['discount']) /
                                         100;
-                                echo 'Rs. ' . $subtotal;
+                                echo number_format($subtotal, 2);
                                 $totalamount +=
                                     (float) $quoteitem['qty'] * (float) $quoteitem['unitprice'] -
                                     ((float) $quoteitem['qty'] *
@@ -245,7 +271,7 @@
 
                                 $subtotal = (float) $quoteitem['qty'] * (float) $quoteitem['unitprice'];
                                 $totalamount += (float) $quoteitem['qty'] * (float) $quoteitem['unitprice'];
-                                echo 'Rs. ' . $subtotal;
+                                echo number_format($subtotal, 2);
                             @endphp
                         @endif
 
@@ -260,36 +286,28 @@
 
 
 
+    <br>
+    <br>
+    <br>
+    <br>
 
-
-    {{-- <div class="footer">
-
-        <div style="text-align: center; margin-top: 50px;">
-            <table>
-                <tbody>
-                    <tr>
-                        <td style="width: 50%;">
-                            <div style="margin-left: 70px; text-align: center"> <!-- Adjust margin as needed -->
-                                <p>..................................</p>
-                                <p>Authorized</p>
-                            </div>
-                        </td>
-                        <td style="width: 50%;">
-                            <div style="margin-left: 300px; text-align: center"> <!-- Adjust margin as needed -->
-                                <p>..................................</p>
-                                <p>Customer Signature</p>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-
-        <p>ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT PAYEE ONLY.”
-
-            For exchange, please submit the goods along with the invoice within 7 working days.</p>
-    </div> --}}
+    
 </body>
+<footer style="position: absolute; bottom: 0;">
+
+
+                    <img src="{{ public_path('images/Picture2.jpg') }}" alt="Sample Image"
+                        style="width: 150px; height: 60px;">
+               
+                    <img src="{{ public_path('images/Udyogi.png') }}" alt="Sample Image"
+                        style="width: 150px; height: 60px;">
+              
+                    <img src="{{ public_path('images/honeywell.png') }}" alt="Sample Image"
+                        style="width: 150px; height: 60px;">
+                
+                    <img src="{{ public_path('images/3m.png') }}" alt="Sample Image"
+                        style="width: 150px; height: 45px;">
+            
+</footer>
 
 </html>

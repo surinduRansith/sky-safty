@@ -146,7 +146,7 @@
                     @foreach ($stocks as $index => $stock)
                         <button wire:click="update({{ $stock->id }})"
                             class="bg-blue-500 text-white font-bold py-2 px-4 rounded">
-                            Create Stock
+                            Update Stock
                             <span class="loading loading-spinner text-primary" wire:loading></span>
                         </button>
                     @endforeach

@@ -8,56 +8,45 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            font-size: 14px;
+            font-size: 15.96px;
             color: #333;
         }
 
         .header {
-            text-align: center;
-            margin-top: 10px;
-            padding-bottom: 10px;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 10px;
-
-            font-size: 14px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+            text-align: center;   
         }
 
         .invoice-details {
             position: absolute;
-            top: 80px;
+            
             right: 0;
-            width: 210px;
-            height: 100px;
+           
+            text-align: right;
 
         }
 
         .customer-details,
-        .item-details {
-            margin-top: 10px;
+         {
+            position: absolute;
+            margin-top: 50px;
+            left: 0;
+           
+            text-align: left;
         }
 
-        .invoice-details {
-            margin-top: 175px;
-            text-align: right;
-        }
+        
 
         .item-table {
             width: 100%;
 
-            margin-top: 40px;
+            margin-top: 160px;
         }
 
         .item-table th,
         .item-table td {
 
             padding: 8px;
-            text-align: left;
+            text-align: center;
         }
 
 
@@ -66,54 +55,60 @@
         }
     </style>
 </head>
+<header>
+    <table>
+        <tbody>
+            <tr>
+                <td style="width: 40%;">
+                    <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image"
+                        style="width: 150px; height: auto;">
+                </td>
 
+                <td style="width: 500%;  text-align: left; padding-left: 20px;">
+                    <h1 style="margin: 0; font-weight: bold;">Sky Safety Equipment</h1>
+                    <h5 style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka
+                    </h5>
+                    <h5 style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</h5>
+                    <h5 style="margin: 0;">Business Reg. No: WD 21641</h5>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</header>
 <body>
-    <div class="header">
-
-        <table>
-            <tbody>
-                <tr>
-                    <td style="width: 40%;">
-                        <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image"
-                            style="width: 150px; height: auto;">
-                    </td>
-
-                    <td style="width: 500%;  text-align: left; padding-left: 20px;">
-                        <h1 style="margin: 0; font-weight: bold;">Sky Safety Equipment</h1>
-                        <p style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka
-                        </p>
-                        <p style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</p>
-                        <p style="margin: 0;">Business Reg. No: WD 21641</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-
-        <h1>Invoice</h1>
-    </div>
+    <div style="margin-top: 15px">
     <div class="invoice-details">
         <table>
             <tbody>
+                <tr>
+                    <td></td>
+                    
+                    <td colspan="2"  style="font-weight: bold; font-size: 25px;">Invoice</td>
+                </tr>
                 @foreach ($orderbills as $index => $orderbill)
                     <tr>
                         <td>Invoice No</td>
-                        <td>:</td>
+                        <td style="text-align: center">:</td>
                         <td>SS/{{ $orderbill['id'] }}</td>
                     </tr>
                     <tr>
                         <td>Invoice Date</td>
-                        <td>:</td>
+                        <td style="text-align: center">:</td>
                         <td>{{ $orderbill['invoicedate'] }}</td>
                     </tr>
                     <tr>
+                        <td>Po No</td>
+                        <td style="text-align: center">:</td>
+                        <td>{{ $orderbill['ponumber'] }}</td>
+                    </tr>
+                    <tr>
                         <td>Payment Terms</td>
-                        <td>:</td>
+                        <td style="text-align: center">:</td>
                         <td>{{ $orderbill['paymentmethod'] }}</td>
                     </tr>
                     <tr>
                         <td>Payment Due</td>
-                        <td>:</td>
+                        <td style="text-align: center">:</td>
                         <td>{{ $orderbill['duedate'] }}</td>
                     </tr>
                 @endforeach
@@ -126,27 +121,25 @@
                 @foreach ($customerdetails as $customer)
                     <tr>
                         <td>Customer Name</td>
-                        <td>:</td>
+                        <td style="text-align: center">:</td>
                         <td>{{ $customer->company }}</td>
                     </tr>
                     <tr>
                         <td>Address</td>
-                        <td>:</td>
-                        <td>{{ $customer->address }}</td>
+                        <td style="text-align: center">:</td>
+                        <td style="word-wrap: break-word; white-space: pre-wrap; max-width: 300px;">{{ $customer->address }}</td>
                     </tr>
                     <tr>
-                        <td>Delivery Addrewss</td>
-                        <td>:</td>
-
-                        <td>{{ $deliveryAddress }}</td>
-
-
+                        <td>Delivery Address</td>
+                        <td style="text-align: center">:</td>
+                        <td style="word-wrap: break-word; white-space: pre-wrap; max-width: 300px;">{{ $deliveryAddress }}</td>
                     </tr>
+                    
                 @endforeach
             </tbody>
         </table>
     </div>
-
+    </div>
 
     @php
         $subtotal = 0;
@@ -158,7 +151,7 @@
             <tr>
                 <th>Item Code</th>
                 <th>Description</th>
-                <th>Size</th>
+                <th></th>
                 <th>Qty</th>
                 <th>Unit Price</th>
                 <th>Discount</th>
@@ -177,7 +170,7 @@
                     </td>
                     <td>{{ $orderitem['sizes'] }}</td>
                     <td>{{ $orderitem['quantity'] }}</td>
-                    <td>Rs.{{ $orderitem['unit_price'] }}</td>
+                    <td>{{  number_format($orderitem['unit_price'], 2) }}</td>
                     <td>{{ $orderitem['discount'] }}</td>
                     <td>
                         @if ($orderitem['discount'] > 0)
@@ -189,7 +182,7 @@
                                         (float) $orderitem['unit_price'] *
                                         (float) $orderitem['discount']) /
                                         100;
-                                echo 'Rs. ' . $subtotal;
+                                echo number_format($subtotal, 2);
                                 $totalamount +=
                                     (float) $orderitem['quantity'] * (float) $orderitem['unit_price'] -
                                     ((float) $orderitem['quantity'] *
@@ -202,7 +195,7 @@
 
                                 $subtotal = (float) $orderitem['quantity'] * (float) $orderitem['unit_price'];
                                 $totalamount += (float) $orderitem['quantity'] * (float) $orderitem['unit_price'];
-                                echo 'Rs. ' . $subtotal;
+                                echo number_format($subtotal, 2);
                             @endphp
                         @endif
 
@@ -213,7 +206,16 @@
                     $totaldiscount = $orderitem['total_discount'];
                 @endphp
             @endforeach
+            <tr >
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
 
+            </tr>
             <tr class="total">
                 <td></td>
                 <td></td>
@@ -239,10 +241,10 @@
                         @php
 
                             $totalamount = (float) $totalamount - ((float) $totalamount * (float) $totaldiscount) / 100;
-                            echo 'Rs. ' . $totalamount;
+                            echo number_format($totalamount, 2);
                         @endphp
                     @else
-                        Rs. {{ $totalamount }}
+                       {{ number_format($totalamount, 2) }}
                     @endif
 
 
@@ -256,7 +258,7 @@
 
 
 
-    <div class="footer">
+    {{-- <div class="footer">
 
         <div style="text-align: center; margin-top: 50px;">
             <table>
@@ -280,10 +282,37 @@
         </div>
 
 
-        <p>ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT PAYEE ONLY.”
+        <p style="font-size: 12px">ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT PAYEE ONLY.”
 
             For exchange, please submit the goods along with the invoice within 7 working days.</p>
-    </div>
+    </div> --}}
 </body>
+<footer style="position: fixed; bottom: 0;">
+  
+    <table>
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <div style="margin-left: 70px; text-align: center"> <!-- Adjust margin as needed -->
+                        <p>..................................</p>
+                        <p>Authorized</p>
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div style="margin-left: 300px; text-align: center"> <!-- Adjust margin as needed -->
+                        <p>..................................</p>
+                        <p>Customer Signature</p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+<p style="font-size: 12px; align-items: center">ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT PAYEE ONLY.”
+
+    For exchange, please submit the goods along with the invoice within 7 working days.</p>
+</footer>
 
 </html>

@@ -50,6 +50,9 @@ class InvoiceCreate extends Component
     public $invoicedate;
     #[Rule('required')]
     public $duedate;
+
+    #[Rule('required')]
+    public $poNumber;
     public $orderbills;
     public $orderitems;
     //#[Rule('required|in:30 Day Credit,COD')]
@@ -59,10 +62,35 @@ class InvoiceCreate extends Component
     public $sizede;
     public function mount()
     {
+        $this->setDueDate();
         // Set the current date as the default for invoicedate
         $this->invoicedate = now()->format('Y-m-d');
         $this->duedate = now()->addDays(30)->format('Y-m-d');
         $this->resetserach();
+    }
+
+    public function updatedinvoicedate($value){
+        //dd($value);
+        $this->setDueDate();
+    }
+
+    public function updatedpaymentmethod($value)
+    {
+        // Update the due date when the payment method changes
+        $this->setDueDate();
+    }
+    
+    private function setDueDate()
+    {
+      
+        if($this->paymentmethod == '30 Day Credit'){
+            //dd($this->invoicedate);
+            $this->duedate = \Carbon\Carbon::parse($this->invoicedate)->addDays(30)->format('Y-m-d');
+    
+    
+        }elseif($this->paymentmethod == 'COD'){
+            $this->duedate = $this->invoicedate;
+        }
     }
     
 
@@ -103,6 +131,8 @@ class InvoiceCreate extends Component
     public function removeItem($key){
 
         unset($this->invoiceitems[$key]);
+
+        $this->invoiceitems = array_values($this->invoiceitems);
     }
    
    
@@ -142,10 +172,13 @@ class InvoiceCreate extends Component
     if (empty($this->paymentmethod)) {
         $errors['payment'] = 'Please select a payment method before saving the order.';
     }
+    if (empty($this->poNumber)) {
+        $errors['poNumber'] = 'Please enter the PO Number before saving the order.';
+    }
 
     foreach ($this->invoiceitems as $item) {
-        if($item['unitprice'] < 0){
-            $errors['unitprice'] = 'Unit Price cannot be negative before saving the quotation.';
+        if($item['unitprice'] <= 0){
+            $errors['unitprice'] = 'Unit Price cannot be negative or 0 before saving the quotation.';
         }
         if($item['discount'] < 0){
             $errors['discount'] = 'Discount cannot be negative before saving the quotation.';
@@ -153,10 +186,30 @@ class InvoiceCreate extends Component
         if($item['discount'] > 100){
             $errors['discount'] = 'Discount cannot be more than 100% before saving the quotation.';
         }
-        if($item['qty'] < 0){
-            $errors['qty'] = 'Quantity cannot be negative before saving the quotation.';
+        if($item['qty'] <= 0){
+
+            $errors['qty'] = 'Quantity cannot be negative or 0 before saving the quotation.';
         }
+        
+        $sizes = Size::where('stock_id', $item['id'])
+        ->where('size', $item['sizesselect'])
+        ->get(); // Get the size record
+    
+        foreach ($sizes as $size) {
+                
+            if ($size['quantity'] < $item['qty'] || $size['quantity'] == 0) {
+
+             
+                $errors['qty'] = 'Not enough stock for the  selected  size before saving the quotation.';
+            }
+        }
+        
+
+       
+        
+
     }
+    
     
     if($this->totaldiscount < 0){
         $errors['totaldiscount'] = 'Total Discount cannot be negative before saving the quotation.';
@@ -192,6 +245,7 @@ class InvoiceCreate extends Component
             'invoicedate' => $this->invoicedate,
             'paymentmethod' => $this->paymentmethod,
             'duedate' => $this->duedate,
+            'ponumber' => $this->poNumber,
             'deliveryaddress' => $this->deliveryAddress,
             'created_at' => now(),
             'updated_at' => now(),
@@ -216,14 +270,12 @@ class InvoiceCreate extends Component
                 $size = Size::where('stock_id', $item['id'])
                     ->where('size', $item['sizesselect'])
                 ->first(); // Get the size record
-
-                    if ($size && $size->quantity >= $item['qty']) {
+                
+                
+                    if ($size->size && $size->quantity >= $item['qty']) {
                     // Decrease quantity safely
                 $size->decrement('quantity', $item['qty']); 
-                } else {
-                        // Handle the case where there's not enough quantity
-                        session()->flash('error', 'Not enough quantity available for the selected size.');
-                    }
+                }
 
        }
 
@@ -231,7 +283,7 @@ class InvoiceCreate extends Component
     
     
         // Clear the items after saving
-       $this->reset(['invoiceitems','company','address','customerid','paymentmethod']);
+     $this->reset(['invoiceitems','company','address','customerid','paymentmethod','poNumber']);
 
         session()->flash('success', 'Order saved successfully.');
  
@@ -250,7 +302,9 @@ class InvoiceCreate extends Component
             'deliveryAddress'=>$this->deliveryAddress
         ];
 
-        $pdf=Pdf::loadView('orders.invoice-pdf',$data);
+        $pdf=Pdf::loadView('orders.invoice-pdf',$data)
+        ->setPaper('a4', 'portrait');
+        
 
         return response()->streamDownload(function() use($pdf){
             echo $pdf->stream();

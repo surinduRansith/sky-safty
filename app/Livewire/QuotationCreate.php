@@ -16,7 +16,7 @@ use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Carbon\Carbon;
 
 class QuotationCreate extends Component
 {
@@ -54,15 +54,19 @@ class QuotationCreate extends Component
     #[Rule('required')]
     public $duedate;
     public $orderbills;
+    public $contactNumber = 711335922;
     public $orderitems;
     //#[Rule('required|in:30 Day Credit,COD')]
-    public $paymentmethod1;
+    public $paymentMethod;
+
+    public $validperiod;
     
     public $quotationYear;
     public $sizede;
     public function mount()
     {
         $this->setDueDate();
+        //$this->setinvoiceDate();
      
         // Set the current date as the default for invoicedate
         $this->invoicedate = now()->format('Y-m-d');
@@ -78,7 +82,11 @@ class QuotationCreate extends Component
       
     }
 
-    public function updatedPaymentmethod1($value)
+    public function updatedinvoicedate($value){
+        $this->setDueDate();
+    }
+
+    public function updatedvalidperiod($value)
 {
     // Update the due date when the payment method changes
     $this->setDueDate();
@@ -86,10 +94,14 @@ class QuotationCreate extends Component
 
 private function setDueDate()
 {
-    if($this->paymentmethod1 == '7 Day Credit'){
-        $this->duedate = now()->addDays(7)->format('Y-m-d');
-    }elseif($this->paymentmethod1 == '14 Day Credit'){
-        $this->duedate = now()->addDays(14)->format('Y-m-d');
+  
+    if($this->validperiod == '7 Day'){
+        
+        $this->duedate = \Carbon\Carbon::parse($this->invoicedate)->addDays(7)->format('Y-m-d');
+
+
+    }elseif($this->validperiod == '14 Day'){
+        $this->duedate = \Carbon\Carbon::parse($this->invoicedate)->addDays(14)->format('Y-m-d');
     }
 }
 
@@ -136,6 +148,8 @@ private function setDueDate()
     {
 
         unset($this->invoiceitems[$key]);
+        $this->invoiceitems = array_values($this->invoiceitems);
+
     }
 
 
@@ -166,8 +180,12 @@ private function setDueDate()
         }
 
         // Check if payment method is selected
-        if ($this->paymentmethod1=='Select Valid Period') {
-            $errors['payment'] = 'Please select a payment method before saving the quotation.';
+        if ($this->paymentMethod=='Payment Method') {
+            $errors['paymentMethod'] = 'Please select a payment method before saving the quotation.';
+        }
+
+        if ($this->validperiod=='Select Valid Period') {
+            $errors['validperiod'] = 'Please select a valid period before saving the quotation.';
         }
 
         foreach ($this->invoiceitems as $item) {
@@ -190,12 +208,12 @@ private function setDueDate()
     public function save()
     {
 
-        if($this->paymentmethod1 == '7 Day Credit'){
-            $this->duedate = now()->addDays(7)->format('Y-m-d');
-        }elseif($this->paymentmethod1 == '14 Day Credit'){
-            $this->duedate = now()->addDays(14)->format('Y-m-d');
+        // if($this->paymentMethod == '30 Day Credit'){
+        //     $this->duedate = now()->addDays(30)->format('Y-m-d');
+        // }elseif($this->paymentMethod == 'COD'){
+        //     $this->duedate = now()->addDays(1)->format('Y-m-d');
             
-        }
+        // }
       
      
         if (!$this->validateOrder()) {
@@ -235,12 +253,15 @@ private function setDueDate()
                 'code' => $this->quotatoinId,
             'quoteDate' => $this->invoicedate,
             'dueDate' => $this->duedate,
-            'method' => $this->paymentmethod1,
+            'paymentMethod' => $this->paymentMethod,
+            'validityPeriod' => $this->validperiod,
                 'orderitems' => $this->orderitems,
-                'customerdetails' => $customerdetails
+                'customerdetails' => $customerdetails,
+                'contactNumber'=>$this->contactNumber
             ];
 
-            $pdf = Pdf::loadView('quotation.quotationPdf', $data)->setPaper('a4', 'landscape');
+            $pdf = Pdf::loadView('quotation.quotationPdf', $data)
+            ->setPaper('a4', 'landscape');
 
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->stream();

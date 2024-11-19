@@ -156,13 +156,24 @@
                     @enderror
                 </div>
                 <div>
-                    <select wire:model.live="paymentmethod1" class="select select-sm select-bordered w-full max-w-xs">
-                        <option selected>Select Valid Period</option>
-                        <option value="7 Day Credit">7 Day Credit</option>
-                        <option value="14 Day Credit">14 Day Credit</option>
+                    <select wire:model="paymentMethod" class="select select-sm select-bordered w-full max-w-xs">
+                        <option selected>Payment Method</option>
+                        <option value="30 Day Credit">30 Day Credit </option>
+                        <option value="COD">COD</option>
 
                     </select>
-                    @error('paymentmethod1')
+                    @error('paymentMethod')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div>
+                    <select wire:model.live="validperiod" class="select select-sm select-bordered w-full max-w-xs">
+                        <option selected>Select Valid Period</option>
+                        <option value="7 Day">7 Day </option>
+                        <option value="14 Day">14 Day</option>
+
+                    </select>
+                    @error('validperiod')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -170,21 +181,16 @@
                 <div>
 
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
-                        Invoice Date :<input type="date" wire:model="invoicedate" class="grow"
+                        Invoice Date :<input type="date" wire:model.live="invoicedate" class="grow"
                             placeholder="Phone Number" />
                     </label>
 
                 </div>
                 <div>
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
-                        Payment Due: <input type="date" wire:model="duedate" class="grow"
-                            placeholder="Phone Number" />
+                        Payment Due: <input type="date" disabled  wire:model.live="duedate" class="grow"
+                            placeholder="due date" />
                     </label>
-
-
-
-
-
                 </div>
 
 

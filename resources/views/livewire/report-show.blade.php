@@ -1,4 +1,15 @@
 <div>
+    @if (session('success'))
+    <div role="alert" class="alert alert-success mb-4 p-2 text-sm" x-data="{ show: true }" x-init="setTimeout(() => show = false, 2000)"
+        x-show="show">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ session('success') }}done</span>
+    </div>
+@endif
     <div class="grid grid-cols-4 gap-4 ">
         <div>
             <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
@@ -17,7 +28,13 @@
             <button  wire:click="Show" class="btn btn-primary btn-sm">Show</button>
             
         </div>
+        <label class="input input-bordered flex items-center gap-2  mb-4 max-w-md input-sm">
+            <input type="text" wire:model.live.debounce.300ms="search" class="grow"
+                placeholder="Search Item Name or Code" />
+        </label>
+       
     </div>
+    
     <div class="overflow-x-auto mt-4">
        
        @if(count($reports)>0)
@@ -37,28 +54,28 @@
 
        </div>
 
-       <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-4">
-        <thead>
+       <table class="table table-zebra min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-4">
+        <thead class="bg-gray-50 dark:bg-gray-700">
             <tr>
-                <th class="border px-4 py-2">Order ID</th>
-                <th class="border px-4 py-2">Invoice Date</th>
-                <th class="border px-4 py-2">Final Total</th>
-                <th class="border px-4 py-2"></th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300" >Order ID</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300" >Invoice Date</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300" >Final Total</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300" ></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             @php
                 $total = 0;
             @endphp
             @foreach ($reports as $report)
                 <tr>
-                    <td class="border px-4 py-2">SS/{{ $report->order_id }}</td>
-                    <td class="border px-4 py-2">
+                    <td  >SS/{{ $report->order_id }}</td>
+                    <td  >
                         {{ $report->invoicedate }}
                     </td>
-                    <td class="border px-4 py-2">Rs. {{ number_format($report->final_total, 2) }}</td>
-                    <td class="border px-4 py-2">
-                        <button  class="rounded-full inline-flex items-center px-3 py-2 bg-yellow-600 text-white text-sm font-medium rounded-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
+                    <td   >Rs. {{ number_format($report->final_total, 2) }}</td>
+                    <td class="w-40">
+                        <button  class="rounded-full inline-flex items-center px-3 py-2 bg-yellow-500 text-white text-sm font-medium rounded-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
 
                          wire:click="save({{ $report->order_id }})">
                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
@@ -85,7 +102,7 @@
                             <div class="modal-action justify-center">
                                 <form method="dialog">
                                     <!-- if there is a button in form, it will close the modal -->
-                                    <button wire:click="deleteStock({{ $report->order_id  }})"
+                                    <button wire:click="deleteinvoice({{ $report->order_id  }})"
                                         class="btn btn-error pl-4">
                                         Yes
 
@@ -104,8 +121,9 @@
                 </tr>
             @endforeach
             <tr>
-                <td class="border px-4 py-2 font-bold" colspan="2">Total</td>
-                <td class="border px-4 py-2 font-bold">Rs. {{ number_format($total, 2) }}</td>
+                <td  colspan="2">Total</td>
+                <td >Rs. {{ number_format($total, 2) }}</td>
+                <td  ></td>
             </tr>
         </tbody>
     </table>

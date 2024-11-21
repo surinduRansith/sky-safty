@@ -1,7 +1,7 @@
 <div>
 
 
-    <label class="input input-bordered flex items-center gap-2  mb-4 max-w-md">
+    <label class="input input-bordered flex items-center gap-2">
         <input type="text" wire:model.live.debounce.300ms="search" class="grow"
             placeholder="Search Item Name or Code" />
     </label>

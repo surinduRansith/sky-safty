@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Size;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -13,9 +14,10 @@ use Livewire\Component;
 class ReportShow extends Component
 {
     public $reports =[];
+    public $search;
     public $startDateReport;
     public $endDateReport;
-
+    
     public    $noDataFound;
 
     public $orderbills;
@@ -27,10 +29,11 @@ class ReportShow extends Component
         
         $this->startDateReport = Carbon::now()->startOfMonth()->format('Y-m-d');
         $this->endDateReport = Carbon::now()->endOfMonth()->format('Y-m-d');
+       
     }
 
     public function Show(){
-
+        
         $this->reports = OrderItem::select(
             'order_items.order_id',
             'order_items.created_at',
@@ -62,6 +65,7 @@ class ReportShow extends Component
         )
         ->join('orders', 'orders.id', '=', 'order_items.order_id')  // Join orders table with order_items
         ->whereBetween('order_items.created_at', [$this->startDateReport, $this->endDateReport])
+        ->where('order_items.order_id', 'like',  $this->search . '%')
         ->groupBy('order_items.order_id', 'orders.invoicedate')  // Group by order_id and invoicedate
         ->get();
     
@@ -107,6 +111,7 @@ class ReportShow extends Component
         )
         ->join('orders', 'orders.id', '=', 'order_items.order_id')  // Join orders table with order_items
         ->whereBetween('order_items.created_at', [$this->startDateReport, $this->endDateReport])
+        ->where('order_items.order_id', 'like',  $this->search . '%')
         ->groupBy('order_items.order_id', 'orders.invoicedate')  // Group by order_id and invoicedate
         ->get();
 
@@ -125,8 +130,29 @@ class ReportShow extends Component
        return response()->streamDownload(function() use($pdf){
            echo $pdf->stream();
        },'report.pdf');
+
+       
     }
 
+    public function deleteinvoice($order_id){
+
+       $orderitems = OrderItem::where('order_id', '=', $order_id)->get();
+        //dd($orderitems);
+       if (!$orderitems->isEmpty()) {
+        foreach ($orderitems as $index => $orderitem) {
+            Size::where('stock_id', '=', $orderitem['stock_id'])  // Match size by its ID
+            ->where('size', '=', $orderitem['sizes'])  // Match the size identifier
+            ->increment('quantity', $orderitem['quantity']);  // Increment the quantity by the order item's quantity
+        }
+        Order::where('id','=',$order_id)->delete();
+        session()->flash('success', 'Invoice deleted successfully.');
+       }else{
+        dd('no');
+       }
+       // Order::where('id','=',$order_id)->delete();
+        
+
+    }
 
     public function save($order_id)
     {
@@ -139,7 +165,7 @@ class ReportShow extends Component
             $customer_id= $orderbill['customer_id'];
             $deliveryaddress = $orderbill['deliveryaddress'];
         }
-        
+
         $customerdetails = Customer::where('id','=',$customer_id)->get();
         
         
@@ -164,6 +190,7 @@ class ReportShow extends Component
 
     public function render()
     {
+        $this->Show();
         return view('livewire.report-show');
     }
 }

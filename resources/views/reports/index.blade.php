@@ -8,5 +8,5 @@
         <livewire:report-show />
     </div>
     </div>
-
+    
 </x-app-layout>

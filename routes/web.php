@@ -24,6 +24,12 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 Route::middleware('auth')->group(function () {
+    
+    Route::get('/registration', function () {
+
+        return view('livewire.pages.auth.register');
+
+    })->name('registration.page');
     Route::resource('stocks', StockController::class);
     Route::get('/quotation', [QuotationController::class, 'index'])->name('quotation.create');
     Route::get('/stocks/create',StockCreateform::class)->name('stocks.create');

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -16,6 +17,10 @@ class ReportShow extends Component
     public $endDateReport;
 
     public    $noDataFound;
+
+    public $orderbills;
+
+    public $orderitems;
   
 
     public function mount(){
@@ -121,6 +126,42 @@ class ReportShow extends Component
            echo $pdf->stream();
        },'report.pdf');
     }
+
+
+    public function save($order_id)
+    {
+       
+        $this->orderbills= Order::where('id','=',$order_id)->get();
+        $this->orderitems = OrderItem::where('order_id', '=', $order_id)->get();
+     
+        foreach ($this->orderbills as $orderbill) {
+            
+            $customer_id= $orderbill['customer_id'];
+            $deliveryaddress = $orderbill['deliveryaddress'];
+        }
+        
+        $customerdetails = Customer::where('id','=',$customer_id)->get();
+        
+        
+    
+        $data=[
+             'orderbills'=>$this->orderbills,
+             'orderitems'=>$this->orderitems,
+            'customerdetails'=>$customerdetails,
+            'deliveryAddress'=>$deliveryaddress
+        ];
+
+       
+        $pdf=Pdf::loadView('orders.invoice-pdf',$data)
+        ->setPaper('a4', 'portrait');
+        
+
+        return response()->streamDownload(function() use($pdf){
+            echo $pdf->stream();
+        },'invoice.pdf');
+    }
+    
+
     public function render()
     {
         return view('livewire.report-show');

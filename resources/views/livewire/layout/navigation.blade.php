@@ -85,6 +85,10 @@ new class extends Component {
                         <x-dropdown-link :href="route('profile')" wire:navigate>
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('registration.page')" wire:navigate>
+                            {{ __('Register') }}
+                        </x-dropdown-link>
+                       
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">

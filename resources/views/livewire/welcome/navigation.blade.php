@@ -9,7 +9,7 @@
     @else
         <a
             href="{{ route('login') }}"
-            class="btn-outline btn-primary rounded-md px-4 gap-4 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+            class="btn-outline btn-primary rounded-lg px-4 gap-4 py-2 text-black text-xl ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
         >
             Log in
         </a>

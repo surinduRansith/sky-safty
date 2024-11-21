@@ -36,11 +36,11 @@
             <main>
                 {{ $slot }}
             </main>
-            <footer>
-                Version 1.0.0 | © 2024 CSK Software Developers. All rights reserved.
-            </footer>
         </div>
         @livewireScripts
-
+        
     </body>
+    <footer>
+        Version 1.0.0 | © 2024 CSK Software Developers. All rights reserved.
+    </footer>
 </html>

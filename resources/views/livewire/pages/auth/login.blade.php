@@ -27,7 +27,7 @@ new #[Layout('layouts.guest')] class extends Component
 <div>
     <div class="flex justify-center">
         <a href="/" wire:navigate>
-        <img src="{{ asset('images/logo.jpg') }}" alt="logo" class="rounded">\
+        <img src="{{ asset('images/logo.jpg') }}" alt="logo" class="rounded-full">\
         </a>
     </div>
 <br>

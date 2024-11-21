@@ -9,12 +9,7 @@
     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead class="bg-gray-50 dark:bg-gray-700">
             <tr>
-                <th class="px-6 py-3 text-left">
-                    <label>
-                        <input type="checkbox"
-                            class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                    </label>
-                </th>
+              
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                     {{ __('Stock Code') }}
                 </th>
@@ -32,15 +27,12 @@
                 </th>
             </tr>
         </thead>
+       
         <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             @foreach ($stocks as $index => $stock)
+          
                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 transition ease-in-out duration-150">
-                    <td class="px-6 py-4">
-                        <label>
-                            <input type="checkbox"
-                                class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                        </label>
-                    </td>
+                   
                     <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
                         {{ $stock['code'] }}
                     </td>

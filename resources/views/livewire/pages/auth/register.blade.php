@@ -35,8 +35,8 @@ new #[Layout('layouts.guest')] class extends Component
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
 }; ?>
-
-<div>
+ <x-app-layout>   
+<x-guest-layout>
     <form wire:submit="register">
         <!-- Name -->
         <div>
@@ -85,4 +85,6 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
     </form>
-</div>
+
+</x-guest-layout>
+</x-app-layout>

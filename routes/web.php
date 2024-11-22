@@ -6,10 +6,6 @@ use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\reportController;
 use App\Http\Controllers\StockController;
 use App\Livewire\CustomerCreateform;
-use App\Livewire\InvoiceCreate;
-use App\Livewire\QuotationCreate;
-use App\Livewire\ReportShow;
-use App\Livewire\ShowStockDetails;
 use App\Livewire\StockCreateform;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +23,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/registration', function () {
 
-        return view('livewire.pages.auth.register');
+        return view('useraccounts.registration');
 
     })->name('registration.page');
     Route::resource('stocks', StockController::class);

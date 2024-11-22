@@ -211,7 +211,7 @@
                             {{ __('QTY') }}
                         </th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {{ __('Uniy Price') }}
+                            {{ __('Unit Price') }}
                         </th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                             {{ __('Discount(%)') }}

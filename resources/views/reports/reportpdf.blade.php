@@ -93,6 +93,7 @@
             <thead>
                 <tr>
                     <th class="border px-4 py-2">Order ID</th>
+                    <th class="border px-4 py-2">Company</th>
                     <th class="border px-4 py-2">Invoice Date</th>
                     <th class="border px-4 py-2">Final Total</th>
                 </tr>
@@ -104,6 +105,7 @@
                 @foreach ($reports as $report)
                     <tr>
                         <td class="border px-4 py-2">SS/{{ $report->order_id }}</td>
+                        <td class="border px-4 py-2">{{ $report->company }}</td>
                         <td class="border px-4 py-2">
                             {{ $report->invoicedate }}
                         </td>
@@ -114,7 +116,7 @@
                     </tr>
                 @endforeach
                 <tr>
-                    <td class="border px-4 py-2 font-bold" colspan="2">Total</td>
+                    <td class="border px-4 py-2 font-bold" colspan="3">Total</td>
                     <td class="border px-4 py-2 font-bold">Rs. {{ number_format($total, 2) }}</td>
                 </tr>
             </tbody>

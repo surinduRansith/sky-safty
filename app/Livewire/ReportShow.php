@@ -36,6 +36,7 @@ class ReportShow extends Component
         
         $this->reports = OrderItem::select(
             'order_items.order_id',
+            'customers.company',
             'order_items.created_at',
             DB::raw('SUM(
                     CASE 
@@ -64,12 +65,15 @@ class ReportShow extends Component
             'orders.invoicedate'
         )
         ->join('orders', 'orders.id', '=', 'order_items.order_id')  // Join orders table with order_items
+       ->join('customers', 'customers.id', '=', 'orders.customer_id')
         ->whereBetween('order_items.created_at', [$this->startDateReport, $this->endDateReport])
-        ->where('order_items.order_id', 'like',  $this->search . '%')
+        ->where(function ($query) {
+            $query->where('order_items.order_id', 'like', $this->search . '%')
+                  ->orWhere('customers.company', 'like', '%' . $this->search . '%');
+        })
         ->groupBy('order_items.order_id', 'orders.invoicedate')  // Group by order_id and invoicedate
         ->get();
-    
-    
+                    
         if ($this->reports->isEmpty()) {
             $this->noDataFound = true;
         } else {
@@ -82,6 +86,7 @@ class ReportShow extends Component
 
         $this->reports = OrderItem::select(
             'order_items.order_id',
+            'customers.company',
             'order_items.created_at',
             DB::raw('SUM(
                     CASE 
@@ -110,8 +115,12 @@ class ReportShow extends Component
             'orders.invoicedate'
         )
         ->join('orders', 'orders.id', '=', 'order_items.order_id')  // Join orders table with order_items
-        ->whereBetween('order_items.created_at', [$this->startDateReport, $this->endDateReport])
-        ->where('order_items.order_id', 'like',  $this->search . '%')
+       ->join('customers', 'customers.id', '=', 'orders.customer_id')
+       ->whereBetween('order_items.created_at', [$this->startDateReport, $this->endDateReport])
+       ->where(function ($query) {
+        $query->where('order_items.order_id', 'like', $this->search . '%')
+              ->orWhere('customers.company', 'like', '%' . $this->search . '%');
+    })
         ->groupBy('order_items.order_id', 'orders.invoicedate')  // Group by order_id and invoicedate
         ->get();
 

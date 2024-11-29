@@ -126,7 +126,7 @@
             <div class="grid grid-cols-2 gap-4 pt-1 px-4 ">
                 <div>
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
-                        Invoice ID : <span class="text-white-500">{{ $quotatoinId }}</span>
+                        Quotation No : <span class="text-white-500">{{ $quotatoinId }}</span>
                     </label>
                 </div>
                 <div>
@@ -171,7 +171,7 @@
                 <div>
 
                     <label class="input input-bordered flex items-center gap-1 mb-1 input-sm">
-                        Invoice Date :<input type="date" wire:model.live="invoicedate" class="grow"
+                        Quotation Date :<input type="date" wire:model.live="invoicedate" class="grow"
                             placeholder="Phone Number" />
                     </label>
 

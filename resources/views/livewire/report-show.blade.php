@@ -57,7 +57,7 @@
        <table class="table table-zebra min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-4">
         <thead class="bg-gray-50 dark:bg-gray-700">
             <tr>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300" >Order ID</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300" >Invoice No</th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300" >Company</th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300" >Invoice Date</th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300" >Final Total</th>

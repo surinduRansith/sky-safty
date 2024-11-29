@@ -77,37 +77,34 @@
 </header>
 <body>
     <div style="margin-top: 15px">
-    <div class="invoice-details">
+        <p style="font-weight: bold; font-size: 25px; width: 100%; text-align: right; margin-bottom: 5px;">Invoice</p>
+        <div class="invoice-details" style="margin-top: 0;">
         <table>
             <tbody>
-                <tr>
-                    <td></td>
-                    
-                    <td colspan="2"  style="font-weight: bold; font-size: 25px;">Invoice</td>
-                </tr>
+                
                 @foreach ($orderbills as $index => $orderbill)
                     <tr>
-                        <td>Invoice No</td>
+                        <td style="text-align: right">Invoice No</td>
                         <td style="text-align: center">:</td>
                         <td>SS/{{ $orderbill['id'] }}</td>
                     </tr>
                     <tr>
-                        <td>Invoice Date</td>
+                        <td style="text-align: right">Invoice Date</td>
                         <td style="text-align: center">:</td>
                         <td>{{ $orderbill['invoicedate'] }}</td>
                     </tr>
                     <tr>
-                        <td>Po No</td>
+                        <td style="text-align: right">Po No</td>
                         <td style="text-align: center">:</td>
                         <td>{{ $orderbill['ponumber'] }}</td>
                     </tr>
                     <tr>
-                        <td>Payment Terms</td>
+                        <td style="text-align: right">Payment Terms</td>
                         <td style="text-align: center">:</td>
                         <td>{{ $orderbill['paymentmethod'] }}</td>
                     </tr>
                     <tr>
-                        <td>Payment Due</td>
+                        <td style="text-align: right">Payment Due</td>
                         <td style="text-align: center">:</td>
                         <td>{{ $orderbill['duedate'] }}</td>
                     </tr>

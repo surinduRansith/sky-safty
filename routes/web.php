@@ -32,7 +32,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('customers', CustomerController::class);
     Route::get('/customers/create',CustomerCreateform::class)->name('customer.create');
     Route::get('/report', [reportController::class, 'index'])->name('report.show');
+    
     Route::resource('orders', OrderController::class);
+
+    Route::get('/users-accounts', function () {
+
+        return view('userlogins');
+
+    })->name('userlogins.page');
     
 });
 

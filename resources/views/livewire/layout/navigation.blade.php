@@ -89,6 +89,10 @@ new class extends Component {
                             {{ __('Register') }}
                         </x-dropdown-link>
                        
+                        <x-dropdown-link :href="route('userlogins.page')" wire:navigate>
+                            {{ __('User Accounts') }}
+                        </x-dropdown-link>
+                       
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">

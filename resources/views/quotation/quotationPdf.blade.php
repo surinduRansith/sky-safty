@@ -98,44 +98,38 @@
 <body>
     
 
-        {{-- <h1>Sales Quotation</h1> --}}
-    <div class="invoice-details">
-
+      
+        <p style="font-weight: bold; font-size: 25px; width: 100%; text-align: right; margin-bottom: 5px;">Sales Quotation</p>
+    <div class="invoice-details" style="margin-top: 0;">
         <table>
             <tbody>
                 <tr>
-                    <td></td>
-                    
-                    <td colspan="2"  style="font-weight: bold; font-size: 25px; width: 100%;">Sales Quotation</td>
-                </tr>
-
-                <tr>
-                    <td>Date</td>
+                    <td style="text-align: right">Date</td>
                     <td style="text-align: center">:</td>
                     <td>{{ $quoteDate }}</td>
                 </tr>
                 <tr>
-                    <td>Quotation No</td>
+                    <td style="text-align: right">Quotation No</td>
                     <td style="text-align: center">:</td>
                     <td>{{ $code }}</td>
                 </tr>
                 <tr>
-                    <td>Payment Terms</td>
+                    <td style="text-align: right">Payment Terms</td>
                     <td style="text-align: center">:</td>
                     <td>{{ $paymentMethod }}</td>
                 </tr>
                 <tr>
-                    <td>Validity Period</td>
+                    <td style="text-align: right">Validity Period</td>
                     <td style="text-align: center">:</td>
                     <td>{{ $validityPeriod }}</td>
                 </tr>
                 <tr>
-                    <td>Valid To</td>
+                    <td style="text-align: right">Valid To</td>
                     <td style="text-align: center">:</td>
                     <td>{{ $dueDate }}</td>
                 </tr>
                 <tr>
-                    <td>Contact No</td>
+                    <td style="text-align: right">Contact No</td>
                     <td style="text-align: center">:</td>
                     <td>{{ $contactNumber }}</td>
                 </tr>
@@ -297,7 +291,7 @@
 
 
                     <img src="{{ public_path('images/Picture2.jpg') }}" alt="Sample Image"
-                        style="width: 150px; height: 60px;">
+                        style="width: 150px; height: 50px;">
                
                     <img src="{{ public_path('images/Udyogi.png') }}" alt="Sample Image"
                         style="width: 150px; height: 60px;">

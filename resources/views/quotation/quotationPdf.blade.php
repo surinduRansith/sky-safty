@@ -199,9 +199,11 @@
                     <td style="width: 25%; border: 1px solid #333; padding: 8px; text-align: left;">
                         <ul>
                             <li>{{ $quoteitem['itemcode'] }}</li>
-                            @foreach (explode("\n", $quoteitem['description']) as $line)
+                            {{-- @foreach (explode("\n", $quoteitem['description']) as $line)
                                 {{ $line }}
-                            @endforeach
+                            @endforeach --}}
+
+                            <p>{!! nl2br($quoteitem['description']) !!}</p>
 
                             @php
                                 $allSizes = [];

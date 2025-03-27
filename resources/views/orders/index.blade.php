@@ -5,6 +5,8 @@
             {{ __('Invoice') }}
         </h2>
         <livewire:invoice-create />
+        @livewire('backup-button')
+
     </div>
     </div>
 

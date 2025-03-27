@@ -14,6 +14,7 @@ use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Options;
 
 class InvoiceCreate extends Component
 {
@@ -302,8 +303,12 @@ class InvoiceCreate extends Component
             'deliveryAddress'=>$this->deliveryAddress
         ];
 
+    
+
+
         $pdf=Pdf::loadView('orders.invoice-pdf',$data)
-        ->setPaper('a4', 'portrait');
+        ->setPaper('letter', 'portrait');
+        
         
 
         return response()->streamDownload(function() use($pdf){

@@ -8,12 +8,13 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            font-size: 15.96px;
-            color: #333;
+            font-size: 18px;
+            
         }
 
         .header {
-            text-align: center;   
+            text-align: center; 
+              
         }
 
         .invoice-details {
@@ -28,7 +29,7 @@
         .customer-details,
          {
             position: absolute;
-            margin-top: 50px;
+            margin-top: 1px;
             left: 0;
            
             text-align: left;
@@ -39,14 +40,14 @@
         .item-table {
             width: 100%;
 
-            margin-top: 160px;
+            margin-top: 170px;
         }
 
         .item-table th,
         .item-table td {
 
             padding: 8px;
-            text-align: center;
+            
         }
 
 
@@ -65,11 +66,11 @@
                 </td>
 
                 <td style="width: 500%;  text-align: left; padding-left: 20px;">
-                    <h1 style="margin: 0; font-weight: bold;">Sky Safety Equipment</h1>
-                    <h5 style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka
-                    </h5>
-                    <h5 style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</h5>
-                    <h5 style="margin: 0;">Business Reg. No: WD 21641</h5>
+                    <h1 style="margin: 0; font-weight: bold; font-size: 65px: font-family: 'Bodoni MT Black', serif;">Sky Safety Equipment</h1>
+                    <h6 style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka
+                    </h6>
+                    <h6 style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</h6>
+                    <h6 style="margin: 0;">Business Reg. No: WD 21641</h6>
                 </td>
             </tr>
         </tbody>
@@ -77,7 +78,10 @@
 </header>
 <body>
     <div style="margin-top: 15px">
-        <p style="font-weight: bold; font-size: 25px; width: 100%; text-align: right; margin-bottom: 5px;">Invoice</p>
+    <div style="text-align: right; font-size: 25px;">
+
+<b>Invoice</b>
+</div>
         <div class="invoice-details" style="margin-top: 0;">
         <table>
             <tbody>
@@ -86,7 +90,7 @@
                     <tr>
                         <td style="text-align: right">Invoice No</td>
                         <td style="text-align: center">:</td>
-                        <td>SS/{{ $orderbill['id'] }}</td>
+                        <td>SS/{{ str_pad($orderbill['id'], 4, '0', STR_PAD_LEFT) }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: right">Invoice Date</td>
@@ -121,15 +125,17 @@
                         <td style="text-align: center">:</td>
                         <td>{{ $customer->company }}</td>
                     </tr>
+                    <br>
                     <tr>
                         <td>Address</td>
                         <td style="text-align: center">:</td>
-                        <td style="word-wrap: break-word; white-space: pre-wrap; max-width: 300px;">{{ $customer->address }}</td>
+                        <td style="word-wrap: break-word; white-space: pre-wrap; max-width: 250px;">{{ $customer->address }}</td>
                     </tr>
+                    <br>
                     <tr>
                         <td>Delivery Address</td>
                         <td style="text-align: center">:</td>
-                        <td style="word-wrap: break-word; white-space: pre-wrap; max-width: 300px;">{{ $deliveryAddress }}</td>
+                        <td style="word-wrap: break-word; white-space: pre-wrap; max-width: 250px;">{{ $deliveryAddress }}</td>
                     </tr>
                     
                 @endforeach
@@ -146,13 +152,13 @@
     <table class="item-table">
         <thead>
             <tr>
-                <th>Item Code</th>
-                <th>Description</th>
+                <th style="text-align: left">Item Code</th>
+                <th style="text-align: left">Description</th>
                 <th></th>
                 <th>Qty</th>
-                <th>Unit Price</th>
-                <th>Discount</th>
-                <th>Amount</th>
+                <th style="text-align: right">Unit Price</th>
+                <th style="text-align: center" >Discount(%)</th>
+                <th style="text-align: right">Amount</th>
             </tr>
         </thead>
         <tbody>
@@ -160,16 +166,16 @@
                 <tr>
 
                     <td>{{ $orderitem->stock->code }}</td>
-                    <td>
+                    <td style="text-align: left">
                         {{ $orderitem->stock->name }}
 
 
                     </td>
                     <td>{{ $orderitem['sizes'] }}</td>
-                    <td>{{ $orderitem['quantity'] }}</td>
-                    <td>{{  number_format($orderitem['unit_price'], 2) }}</td>
-                    <td>{{ $orderitem['discount'] }}</td>
-                    <td>
+                    <td style="text-align: center">{{ $orderitem['quantity'] }}</td>
+                    <td style="text-align: right">{{  number_format($orderitem['unit_price'], 2) }}</td>
+                    <td style="text-align: center">{{ $orderitem['discount'] }}</td>
+                    <td style="text-align: right">
                         @if ($orderitem['discount'] > 0)
                             @php
 
@@ -219,9 +225,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Total Discount</td>
+                <td></td>
                 <td>
-                    {{ $totaldiscount }}
+                    	
 
                 </td>
             </tr>
@@ -232,8 +238,8 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Total</td>
-                <td>
+                <td style="text-align: right">Total</td>
+                <td style="text-align: right">
                     @if ($totaldiscount > 0)
                         @php
 
@@ -284,32 +290,37 @@
             For exchange, please submit the goods along with the invoice within 7 working days.</p>
     </div> --}}
 </body>
-<footer style="position: fixed; bottom: 0;">
-  
-    <table>
+<footer style="position: fixed; bottom: 0; width: 100%;">
+    <table style="width: 100%;">
         <tbody>
+            <!-- Row for Authorized and Customer Signature -->
             <tr>
-                <td style="width: 50%;">
-                    <div style="margin-left: 70px; text-align: center"> <!-- Adjust margin as needed -->
+                <td style="width: 50%; text-align: left;">
+                    <div style="margin-left: 50px;"> <!-- Align content to the left -->
                         <p>..................................</p>
                         <p>Authorized</p>
                     </div>
                 </td>
-                <td style="width: 50%;">
-                    <div style="margin-left: 300px; text-align: center"> <!-- Adjust margin as needed -->
+                <td style="width: 50%; text-align: right;">
+                    <div style="margin-right: 50px;"> <!-- Align content to the right -->
                         <p>..................................</p>
                         <p>Customer Signature</p>
                     </div>
                 </td>
             </tr>
+            <!-- Row for Notes -->
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <div style="margin: 0 auto; width: 80%;"> <!-- Center align the content -->
+                        <p style="font-size: 10.64px;">
+                            ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT PAYEE ONLY.” 
+                            For exchange, please submit the goods along with the invoice within 7 working days.
+                        </p>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
-
-
-
-<p style="font-size: 12px; align-items: center">ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT PAYEE ONLY.”
-
-    For exchange, please submit the goods along with the invoice within 7 working days.</p>
 </footer>
 
 </html>

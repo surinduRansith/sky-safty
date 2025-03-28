@@ -76,7 +76,7 @@ class StockCreateform extends Component
             
         }
 
-   
+        
 
         $stock = Stock::create(
             [

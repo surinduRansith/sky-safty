@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\quotationController;
 use App\Http\Controllers\reportController;
 use App\Http\Controllers\StockController;
 use App\Livewire\CustomerCreateform;
@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
 
     })->name('registration.page');
     Route::resource('stocks', StockController::class);
-    Route::get('/quotation', [QuotationController::class, 'index'])->name('quotation.create');
+    Route::get('/quotation', [quotationController::class, 'index'])->name('quotation.create');
     Route::get('/stocks/create',StockCreateform::class)->name('stocks.create');
     Route::resource('customers', CustomerController::class);
     Route::get('/customers/create',CustomerCreateform::class)->name('customer.create');

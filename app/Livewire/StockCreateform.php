@@ -72,7 +72,7 @@ class StockCreateform extends Component
         ],$customMessages);
 
         if ($this->image) {
-            $validate['image']= $this->image->store('uploads', 'public');
+            $validate['image'] = $this->image->store('', 'public_uploads');
             
         }
 

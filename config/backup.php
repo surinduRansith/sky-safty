@@ -11,7 +11,6 @@ return [
 
         'source' => [
             'files' => [
-                
                 /*
                  * The list of directories and files that will be included in the backup.
                  */
@@ -78,7 +77,7 @@ return [
              * For a complete list of available customization options, see https://github.com/spatie/db-dumper
              */
             'databases' => [
-                'sqlite',
+                
             ],
         ],
 
@@ -152,14 +151,14 @@ return [
              * The disk names on which the backups will be stored.
              */
             'disks' => [
-                'local',
+                'backups',
             ],
         ],
 
         /*
          * The directory where the temporary files will be stored.
          */
-        'temporary_directory' => storage_path('app/backup-temp'),
+        'temporary_directory' => storage_path('app/Sky_Safety'),
 
         /*
          * The password to be used for archive encryption.
@@ -255,8 +254,8 @@ return [
      */
     'monitor_backups' => [
         [
-            'name' => env('APP_NAME', 'laravel-backup'),
-            'disks' => ['local'],
+            'name' => env('APP_NAME', 'Sky_Safety'),
+            'disks' => ['backups'],
             'health_checks' => [
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,

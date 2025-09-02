@@ -8,24 +8,18 @@ use Illuminate\Support\Facades\Artisan;
 
 class BackupButton extends Component
 {
+    public  $backupMessage = '';
+
     public function runBackup()
     {
-        try {
-            // Run the backup command
-            $exitCode = Artisan::call('backup:run');
-            //dd(Artisan::output());
+        $exitCode = Artisan::call('backup:run');
+        $output   = Artisan::output();
 
-            // Check if there was an error during the process
-            $output = Artisan::output();
-            if ($exitCode !== 0) {
-                session()->flash('message', 'Backup failed: ' . $output);
-            } else {
-                session()->flash('message', 'Backup started!');
-            }
-        } catch (\Exception $e) {
-            session()->flash('message', 'Backup error: ' . $e->getMessage());
+        if ($exitCode === 0) {
+            $this->backupMessage = "✅ Backup completed successfully!";
+        } else {
+            $this->backupMessage = "❌ Backup failed: " . $output;
         }
-        
     }
     public function render()
     {

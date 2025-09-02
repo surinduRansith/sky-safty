@@ -93,7 +93,9 @@ new class extends Component {
                             {{ __('User Accounts') }}
                         </x-dropdown-link>
                        
-
+                        <x-dropdown-link :href="route('backup')" wire:navigate>
+                            {{ __('System Backups') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
@@ -135,6 +137,7 @@ new class extends Component {
                     x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
             </div>
+            
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>

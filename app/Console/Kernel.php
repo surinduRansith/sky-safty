@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Process;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,9 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Schedule a daily backup at 2:00 AM
-        $schedule->command('backup:run')->everyMinute();
-
+        //$schedule->command('backup:run')->everyMinute()->timezone('Asia/Colombo');
     }
 
     /**

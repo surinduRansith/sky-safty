@@ -60,52 +60,53 @@ class QuotationCreate extends Component
     public $paymentMethod;
 
     public $validperiod;
-    
+
     public $quotationYear;
     public $sizede;
     public function mount()
     {
         $this->setDueDate();
         //$this->setinvoiceDate();
-     
+
         // Set the current date as the default for invoicedate
         $this->invoicedate = now()->format('Y-m-d');
 
         $this->duedate = now()->addDays(7)->format('Y-m-d');
         $this->quotationYear = now()->format('Y');
         $this->resetserach();
-        $this->quotatoinId =$this->quotationYear."/".DB::table('quotations')->max('id')+1 ;
+        $this->quotatoinId = $this->quotationYear . "/" . DB::table('quotations')->max('id') + 1;
 
 
-       
 
-      
+
+
     }
 
-    public function updatedinvoicedate($value){
+    public function updatedinvoicedate($value)
+    {
         $this->setDueDate();
     }
 
     public function updatedvalidperiod($value)
-{
-    // Update the due date when the payment method changes
-    $this->setDueDate();
-}
-
-private function setDueDate()
-{
-  
-    if($this->validperiod == '7 Day'){
-        
-        $this->duedate = \Carbon\Carbon::parse($this->invoicedate)->addDays(7)->format('Y-m-d');
-
-
-    }elseif($this->validperiod == '14 Day'){
-        $this->duedate = \Carbon\Carbon::parse($this->invoicedate)->addDays(14)->format('Y-m-d');
+    {
+        // Update the due date when the payment method changes
+        $this->setDueDate();
     }
-}
 
-    
+    private function setDueDate()
+    {
+
+        if ($this->validperiod == '7 Day') {
+
+            $this->duedate = \Carbon\Carbon::parse($this->invoicedate)->addDays(7)->format('Y-m-d');
+
+
+        } elseif ($this->validperiod == '14 Day') {
+            $this->duedate = \Carbon\Carbon::parse($this->invoicedate)->addDays(14)->format('Y-m-d');
+        }
+    }
+
+
 
     public function resetserach()
     {
@@ -128,13 +129,13 @@ private function setDueDate()
             'id' => $this->itemdetails->id,
             'itemcode' => $this->itemdetails->code,
             'description' => $this->itemdetails->description,
-            'image'=> $this->itemdetails->image,
+            'image' => $this->itemdetails->image,
             'itemname' => $this->itemdetails->name,
             'qty' => '1',
             'unitprice' => '0',
             'discount' => '0',
             'sizes' => $this->itemdetails->sizes,
-            
+
 
 
         ];
@@ -172,7 +173,7 @@ private function setDueDate()
     {
         $errors = []; // Initialize an empty array to hold error messages
 
-     
+
 
         // Check if customer ID exists
         if (empty($this->customerid)) {
@@ -180,19 +181,19 @@ private function setDueDate()
         }
 
         // Check if payment method is selected
-        if ($this->paymentMethod=='Payment Method') {
+        if ($this->paymentMethod == 'Payment Method') {
             $errors['paymentMethod'] = 'Please select a payment method before saving the quotation.';
         }
 
-        if ($this->validperiod=='Select Valid Period') {
+        if ($this->validperiod == 'Select Valid Period') {
             $errors['validperiod'] = 'Please select a valid period before saving the quotation.';
         }
 
         foreach ($this->invoiceitems as $item) {
-            if($item['unitprice'] < 0){
+            if ($item['unitprice'] < 0) {
                 $errors['unitprice'] = 'Unit Price cannot be negative before saving the quotation.';
             }
-            if($item['qty'] < 0){
+            if ($item['qty'] < 0) {
                 $errors['qty'] = 'Quantity cannot be negative before saving the quotation.';
             }
         }
@@ -212,61 +213,61 @@ private function setDueDate()
         //     $this->duedate = now()->addDays(30)->format('Y-m-d');
         // }elseif($this->paymentMethod == 'COD'){
         //     $this->duedate = now()->addDays(1)->format('Y-m-d');
-            
+
         // }
-      
-     
+
+
         if (!$this->validateOrder()) {
-            return; 
+            return;
         }
-       
-        
-   
-      
-
-
-            //pdf generate customer details
-            $customerdetails = Customer::all()->where('id', '=', $this->customerid);
-
-        
-        
-            $qutation = quotation::create([
-                'code' => $this->quotatoinId,
-            ]);
-
-
-            // Clear the items after saving
-            //$this->reset(['invoiceitems', 'company', 'address', 'customerid', 'paymentmethod']);
-
-            session()->flash('success', 'Quotation saved successfully.');
-
-            //pdf generate bill and item details
-            $this->orderbills = quotation::where('code', '=', $this->quotatoinId)->get();
-            $this->orderitems = OrderItem::where('order_id', '=', $this->quotatoinId)->get();
 
 
 
 
 
-            $data = [
-                'quotationitems' => $this->invoiceitems,
-                'code' => $this->quotatoinId,
+
+        //pdf generate customer details
+        $customerdetails = Customer::all()->where('id', '=', $this->customerid);
+
+
+
+        $qutation = quotation::create([
+            'code' => $this->quotatoinId,
+        ]);
+
+
+        // Clear the items after saving
+        //$this->reset(['invoiceitems', 'company', 'address', 'customerid', 'paymentmethod']);
+
+        session()->flash('success', 'Quotation saved successfully.');
+
+        //pdf generate bill and item details
+        $this->orderbills = quotation::where('code', '=', $this->quotatoinId)->get();
+        $this->orderitems = OrderItem::where('order_id', '=', $this->quotatoinId)->get();
+
+
+
+
+
+        $data = [
+            'quotationitems' => $this->invoiceitems,
+            'code' => $this->quotatoinId,
             'quoteDate' => $this->invoicedate,
             'dueDate' => $this->duedate,
             'paymentMethod' => $this->paymentMethod,
             'validityPeriod' => $this->validperiod,
-                'orderitems' => $this->orderitems,
-                'customerdetails' => $customerdetails,
-                'contactNumber'=>$this->contactNumber
-            ];
+            'orderitems' => $this->orderitems,
+            'customerdetails' => $customerdetails,
+            'contactNumber' => $this->contactNumber
+        ];
 
-            $pdf = Pdf::loadView('quotation.quotationPdf', $data)
+        $pdf = Pdf::loadView('quotation.quotationPdf', $data)
             ->setPaper('a4', 'landscape');
 
-            return response()->streamDownload(function () use ($pdf) {
-                echo $pdf->stream();
-            }, 'Quote.pdf');
-        
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'Quote.pdf');
+
 
     }
     public function render()
@@ -278,12 +279,12 @@ private function setDueDate()
                 ->toArray();
         }
 
-        
-        
+
+
         return view('livewire.quotation-create', [
-            'stocks' => Stock::latest()
-                ->where('name', 'like', '%' . $this->search . '%')
+            'stocks' => Stock::where('name', 'like', '%' . $this->search . '%')
                 ->orWhere('code', 'like', '%' . $this->search . '%')
+                ->orderBy('code', 'asc')
                 ->paginate(3),
         ]);
     }

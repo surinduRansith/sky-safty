@@ -88,18 +88,21 @@
 <header>
     <table>
         <tbody>
+           
             <tr>
+               
+                    
+              
                 <td style="width: 40%;">
                     <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image" style="width: 90px; height: auto;">
                 </td>
 
                 <td style="width: 500%;  text-align: left; padding-left: 20px;">
-                    <h1 style="margin: 0; font-weight: bold; font-size: 25px; font-family; 'Bodoni MT Black', serif;">Sky
-                        Safety Equipment (Pvt) Ltd</h1>
-                    <h6 style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka
+                    <h1 style="margin: 0; font-weight: bold; font-size: 25px; font-family; 'Bodoni MT Black', serif;">{{ $companydetails['company_name'] }}</h1>
+                    <h6 style="margin: 0;">{{ $companydetails['address'] }}
                     </h6>
-                    <h6 style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</h6>
-                    <h6 style="margin: 0;">Business Reg. No: PV 00342249</h6>
+                    <h6 style="margin: 0;">Email: {{ $companydetails['email'] }} | Mobile: {{ $companydetails['phone_number'] }}</h6>
+                    <h6 style="margin: 0;">Business Reg. No: {{ $companydetails['brregistration'] }}</h6>
                 </td>
             </tr>
         </tbody>
@@ -198,6 +201,7 @@
             </tr>
         </thead>
         <tbody>
+           
             @foreach ($orderitems as $index => $orderitem)
                 <tr>
 

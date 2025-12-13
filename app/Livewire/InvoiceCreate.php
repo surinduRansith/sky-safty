@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\companyDetails;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -61,6 +62,9 @@ class InvoiceCreate extends Component
     public $deliveryAddress;
 
     public $sizede;
+
+
+
     public function mount()
     {
         $this->setDueDate();
@@ -68,6 +72,14 @@ class InvoiceCreate extends Component
         $this->invoicedate = now()->format('Y-m-d');
         $this->duedate = now()->addDays(30)->format('Y-m-d');
         $this->resetserach();
+
+        // companyDetails::insert([
+        //     'company_name' => 'Sky Safety Equipment (Pvt) Ltd',
+        //     'address' => 'No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka',
+        //     'phone_number' => '0768 459 499',
+        //     'email' => 'skysafetyequipment@gmail.com',
+        //     'brregistration' => 'PV 00342249',
+        // ]);
     }
 
     public function updatedinvoicedate($value){
@@ -238,8 +250,9 @@ class InvoiceCreate extends Component
 
         //pdf generate customer details
         $customerdetails = Customer::all()->where('id','=',$this->customerid);
+        $companydetails = companyDetails::all()->first();
        
-      
+     
         $order = Order::create([
             'id' => $this->invoiceid,
             'customer_id' => $this->customerid,
@@ -300,7 +313,9 @@ class InvoiceCreate extends Component
              'orderbills'=>$this->orderbills,
              'orderitems'=>$this->orderitems,
             'customerdetails'=>$customerdetails,
-            'deliveryAddress'=>$this->deliveryAddress
+            'deliveryAddress'=>$this->deliveryAddress,
+            'companydetails'=>$companydetails,
+
         ];
 
     
@@ -308,7 +323,6 @@ class InvoiceCreate extends Component
 
         $pdf=Pdf::loadView('orders.invoice-pdf',$data)
         ->setPaper('letter', 'portrait');
-        
         
 
         return response()->streamDownload(function() use($pdf){

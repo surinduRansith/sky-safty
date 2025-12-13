@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\companyDetails;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -130,6 +131,7 @@ class ReportShow extends Component
             'reports'=>$this->reports,
             'startDateReport'=>$this->startDateReport,
             'endDateReport'=>$this->endDateReport,
+            
 
        
        ];
@@ -168,7 +170,8 @@ class ReportShow extends Component
        
         $this->orderbills= Order::where('id','=',$order_id)->get();
         $this->orderitems = OrderItem::where('order_id', '=', $order_id)->get();
-     
+        $companydetails = companyDetails::all()->first(); 
+         
         foreach ($this->orderbills as $orderbill) {
             
             $customer_id= $orderbill['customer_id'];
@@ -179,11 +182,12 @@ class ReportShow extends Component
         
         
     
-        $data=[
+        $data=[     
              'orderbills'=>$this->orderbills,
              'orderitems'=>$this->orderitems,
             'customerdetails'=>$customerdetails,
-            'deliveryAddress'=>$deliveryaddress
+            'deliveryAddress'=>$deliveryaddress,
+            'companydetails'=>$companydetails,
         ];
 
        

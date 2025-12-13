@@ -208,12 +208,14 @@
         </thead>
         <tbody>
             @foreach ($quotationitems as $index => $quoteitem)
+           
                 <tr>
 
 
                     <td style="width: 25%; border: 1px solid #333; padding: 8px; text-align: left;font-size: 14px;">
                         <ul>
                             <li>{{ $quoteitem['itemcode'] }}</li>
+                            <li>{{ $quoteitem['itemname'] }}</li>
                            {{-- @foreach (explode("\n", $quoteitem['description']) as $line)
                                 {{ $line }}
                             @endforeach --}}

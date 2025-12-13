@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 class BackupButton extends Component
 {
     public  $backupMessage = '';
+    public $alert = 'alert-success';
 
     public function runBackup()
     {
@@ -16,9 +17,10 @@ class BackupButton extends Component
         $output   = Artisan::output();
 
         if ($exitCode === 0) {
-            $this->backupMessage = "✅ Backup completed successfully!";
+            $this->backupMessage = " Backup completed successfully!";
         } else {
-            $this->backupMessage = "❌ Backup failed: " . $output;
+            $this->alert = 'alert-error';
+            $this->backupMessage = "❌ Backup failed: ";
         }
     }
     public function render()

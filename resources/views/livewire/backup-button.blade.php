@@ -8,7 +8,7 @@
 
 <div class="mt-4">
     @if ($backupMessage)
-    <div role="alert" class="alert alert-success mb-4 max-w-md pt-5" x-data="{ show: true }" x-init="setTimeout(() => show = false, 2000)"
+    <div role="alert" class="alert {{$alert}} mb-4 max-w-md pt-5" x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)"
         x-show="show">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
             viewBox="0 0 24 24">

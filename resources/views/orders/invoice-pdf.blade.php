@@ -8,52 +8,81 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            font-size: 18px;
-            
+            font-size: 15px;
+
         }
 
         .header {
-            text-align: center; 
-              
+            text-align: center;
+
         }
 
         .invoice-details {
             position: absolute;
-            
+
             right: 0;
-           
+
             text-align: right;
 
         }
 
         .customer-details,
-         {
-            position: absolute;
-            margin-top: 1px;
-            left: 0;
-           
-            text-align: left;
+        {
+        position: absolute;
+        /* margin-top: 1px; */
+        left: 0;
+
+        text-align: left;
         }
 
-        
+
 
         .item-table {
             width: 100%;
 
-            margin-top: 170px;
+            margin-top: 150px;
         }
 
         .item-table th,
         .item-table td {
 
             padding: 8px;
-            
+
         }
 
 
         .total {
             font-weight: bold;
         }
+
+        .label {
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.colon {
+    vertical-align: top;
+    text-align: center;
+    width: 10px;
+}
+
+.value {
+    vertical-align: top;
+    max-width: 280px;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+.tr {
+    border-bottom: 8px solid transparent;
+    line-height: 1.4;
+}
+.row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+}
+
     </style>
 </head>
 <header>
@@ -61,95 +90,102 @@
         <tbody>
             <tr>
                 <td style="width: 40%;">
-                    <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image"
-                        style="width: 150px; height: auto;">
+                    <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image" style="width: 90px; height: auto;">
                 </td>
 
                 <td style="width: 500%;  text-align: left; padding-left: 20px;">
-                    <h1 style="margin: 0; font-weight: bold; font-size: 65px: font-family: 'Bodoni MT Black', serif;">Sky Safety Equipment</h1>
+                    <h1 style="margin: 0; font-weight: bold; font-size: 25px; font-family; 'Bodoni MT Black', serif;">Sky
+                        Safety Equipment (Pvt) Ltd</h1>
                     <h6 style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka
                     </h6>
                     <h6 style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</h6>
-                    <h6 style="margin: 0;">Business Reg. No: WD 21641</h6>
+                    <h6 style="margin: 0;">Business Reg. No: PV 00342249</h6>
                 </td>
             </tr>
         </tbody>
     </table>
 </header>
+
 <body>
-    <div style="margin-top: 15px">
-    <div style="text-align: right; font-size: 25px;">
+<div class="row">
+    <div style="margin-top: 5px">
+        <div style="text-align: right; font-size: 17px;">
 
-<b>Invoice</b>
-</div>
+            <b>Invoice</b>
+        </div>
         <div class="invoice-details" style="margin-top: 0;">
-        <table>
-            <tbody>
-                
-                @foreach ($orderbills as $index => $orderbill)
-                    <tr>
-                        <td style="text-align: right">Invoice No</td>
-                        <td style="text-align: center">:</td>
-                        <td>SS/{{ str_pad($orderbill['id'], 4, '0', STR_PAD_LEFT) }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right">Invoice Date</td>
-                        <td style="text-align: center">:</td>
-                        <td>{{ $orderbill['invoicedate'] }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right">Po No</td>
-                        <td style="text-align: center">:</td>
-                        <td>{{ $orderbill['ponumber'] }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right">Payment Terms</td>
-                        <td style="text-align: center">:</td>
-                        <td>{{ $orderbill['paymentmethod'] }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right">Payment Due</td>
-                        <td style="text-align: center">:</td>
-                        <td>{{ $orderbill['duedate'] }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    <div class="customer-details">
-        <table>
-            <tbody>
-                @foreach ($customerdetails as $customer)
-                    <tr>
-                        <td>Customer Name</td>
-                        <td style="text-align: center">:</td>
-                        <td>{{ $customer->company }}</td>
-                    </tr>
-                    <br>
-                    <tr>
-                        <td>Address</td>
-                        <td style="text-align: center">:</td>
-                        <td style="word-wrap: break-word; white-space: pre-wrap; max-width: 250px;">{{ $customer->address }}</td>
-                    </tr>
-                    <br>
-                    <tr>
-                        <td>Delivery Address</td>
-                        <td style="text-align: center">:</td>
-                        <td style="word-wrap: break-word; white-space: pre-wrap; max-width: 250px;">{{ $deliveryAddress }}</td>
-                    </tr>
-                    
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    </div>
+            <table>
+                <tbody>
 
+                    @foreach ($orderbills as $index => $orderbill)
+                        <tr>
+                            <td style="text-align: right">Invoice No</td>
+                            <td style="text-align: center">:</td>
+                            <td>SS/{{ str_pad($orderbill['id'], 4, '0', STR_PAD_LEFT) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">Invoice Date</td>
+                            <td style="text-align: center">:</td>
+                            <td>{{ $orderbill['invoicedate'] }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">Po No</td>
+                            <td style="text-align: center">:</td>
+                            <td>{{ $orderbill['ponumber'] }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">Payment Terms</td>
+                            <td style="text-align: center">:</td>
+                            <td>{{ $orderbill['paymentmethod'] }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">Payment Due</td>
+                            <td style="text-align: center">:</td>
+                            <td>{{ $orderbill['duedate'] }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="customer-details">
+            <table>
+                <tbody>
+                    @foreach ($customerdetails as $customer)
+                        <tr class="tr">
+                            <td class="label">Customer Name</td>
+                            <td class="colon">:</td>
+                            <td class="value">{{ $customer->company }}</td>
+                        </tr>
+
+                        <tr class="tr">
+                            <td class="label">Address</td>
+                            <td class="colon">:</td>
+                            <td class="value">
+                                {{ $customer->address }}
+                            </td>
+                        </tr>
+
+                        <tr class="tr">
+                            <td class="label">Delivery Address</td>
+                            <td class="colon">:</td>
+                            <td class="value">
+                                {{ $deliveryAddress }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
     @php
         $subtotal = 0;
         $totalamount = 0;
         $totaldiscount = 0;
     @endphp
-    <table class="item-table">
+    <div class="row">
+ <table class="item-table">
         <thead>
             <tr>
                 <th style="text-align: left">Item Code</th>
@@ -157,7 +193,7 @@
                 <th></th>
                 <th>Qty</th>
                 <th style="text-align: right">Unit Price</th>
-                <th style="text-align: center" >Discount(%)</th>
+                <th style="text-align: center">Discount(%)</th>
                 <th style="text-align: right">Amount</th>
             </tr>
         </thead>
@@ -173,7 +209,7 @@
                     </td>
                     <td>{{ $orderitem['sizes'] }}</td>
                     <td style="text-align: center">{{ $orderitem['quantity'] }}</td>
-                    <td style="text-align: right">{{  number_format($orderitem['unit_price'], 2) }}</td>
+                    <td style="text-align: right">{{ number_format($orderitem['unit_price'], 2) }}</td>
                     <td style="text-align: center">{{ $orderitem['discount'] }}</td>
                     <td style="text-align: right">
                         @if ($orderitem['discount'] > 0)
@@ -209,7 +245,7 @@
                     $totaldiscount = $orderitem['total_discount'];
                 @endphp
             @endforeach
-            <tr >
+            <tr>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -227,7 +263,7 @@
                 <td></td>
                 <td></td>
                 <td>
-                    	
+
 
                 </td>
             </tr>
@@ -247,7 +283,7 @@
                             echo number_format($totalamount, 2);
                         @endphp
                     @else
-                       {{ number_format($totalamount, 2) }}
+                        {{ number_format($totalamount, 2) }}
                     @endif
 
 
@@ -255,6 +291,8 @@
             </tr>
         </tbody>
     </table>
+    </div>
+   
 
 
 
@@ -313,7 +351,8 @@
                 <td colspan="2" style="text-align: center;">
                     <div style="margin: 0 auto; width: 80%;"> <!-- Center align the content -->
                         <p style="font-size: 10.64px;">
-                            ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT PAYEE ONLY.” 
+                            ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT
+                            PAYEE ONLY.”
                             For exchange, please submit the goods along with the invoice within 7 working days.
                         </p>
                     </div>

@@ -48,7 +48,7 @@
                 </svg>
                 
               Download Report
-            <span class="loading loading-spinner text-error" wire:loading></span>
+            <span class="loading loading-spinner text-error" wire:loading wire:target="PdfReport"></span>
         
         </button>
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\quotationController;
 use App\Http\Controllers\reportController;
 use App\Http\Controllers\SampleItemOrderController;
+use App\Http\Controllers\SampleOrdeReportrController;
 use App\Http\Controllers\StockController;
 use App\Livewire\BackupButton;
 use App\Livewire\CustomerCreateform;
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/report', [reportController::class, 'index'])->name('report.show');
     Route::get('/backup', [backupController::class, 'index'])->name('backup');
     Route::get('/sampleorder', [SampleItemOrderController::class,'index'])->name('sampleorder.show');
+    Route::get('/sampleorder/report', [SampleOrdeReportrController::class,'index'])->name('sampleorderreport.report');
 
     
     Route::resource('orders', OrderController::class);

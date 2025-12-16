@@ -125,7 +125,7 @@
         <div style="margin-top: 5px">
             <div style="text-align: right; font-size: 17px;">
 
-                <b>Sample Invoice</b>
+                <b>Sample Order Invoice</b>
             </div>
             <div class="invoice-details" style="margin-top: 0;">
                 <table>

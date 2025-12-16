@@ -55,13 +55,13 @@ new class extends Component {
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('report.show')" :active="request()->routeIs('quotation.index')" wire:navigate>
-                        {{ __('Report') }}
+                    <x-nav-link :href="route('sampleorder.show')" :active="request()->routeIs('sampleItemOrder.index')" wire:navigate>
+                        {{ __('Sample Order') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('sampleorder.show')" :active="request()->routeIs('sampleItemOrder.index')" wire:navigate>
-                        {{ __('Sample Order') }}
+                    <x-nav-link :href="route('report.show')" :active="request()->routeIs('quotation.index')" wire:navigate>
+                        {{ __('Report') }}
                     </x-nav-link>
                 </div>
             </div>

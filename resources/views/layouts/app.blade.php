@@ -41,6 +41,6 @@
         
     </body>
     <footer>
-        Version 1.0.0 | © 2024 CSK Software Developers. All rights reserved.
+        Version 1.0.1 | © 2025 CSK Software Developers. All rights reserved.
     </footer>
 </html>

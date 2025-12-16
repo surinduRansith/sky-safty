@@ -5,69 +5,99 @@
         </h2>
     </x-slot>
 
+    <div class="max-w-7xl mx-auto px-6 py-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
 
-
-    <div class="flex flex-row h-screen justify-center items-center">
-
-        <a href="{{ route('stocks.index') }}">
-            <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
-                <figure>
-                    <img class="h-64 w-64 object-center" src="{{ asset('images/stocksicon.jpg') }}" alt="Stock Icon" />
-                </figure>
-                <div class="card-body">
-                    <h1 class="text-center font-bold text-2xl">Stock</h1>
+            {{-- Stock --}}
+            <a href="{{ route('stocks.index') }}">
+                <div class="card card-bordered hover:shadow-lg hover:bg-gray-100 transition w-64">
+                    <figure class="p-3">
+                        <img
+                            class="h-36 w-36 mx-auto object-contain rounded-xl"
+                            src="{{ asset('images/stocksicon.jpeg') }}"
+                            alt="Stock">
+                    </figure>
+                    <div class="card-body py-3">
+                        <h1 class="text-center font-bold text-lg">Stock</h1>
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
 
-        <a href="{{ route('quotation.create') }}">
-            <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
-                <figure>
-                    <img class="h-64 w-64 object-center" src="{{ asset('images/quoteicon.jpg') }}"
-                        alt="Quotation Icon" />
-                </figure>
-                <div class="card-body">
-                    <h1 class="text-center font-bold text-2xl">Quotation</h1>
+            {{-- Quotation --}}
+            <a href="{{ route('quotation.create') }}">
+                <div class="card card-bordered hover:shadow-lg hover:bg-gray-100 transition w-64">
+                    <figure class="p-3">
+                        <img
+                            class="h-36 w-36 mx-auto object-contain rounded-xl"
+                            src="{{ asset('images/quoteicon.jpeg') }}"
+                            alt="Quotation">
+                    </figure>
+                    <div class="card-body py-3">
+                        <h1 class="text-center font-bold text-lg">Quotation</h1>
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
 
-        <a href="{{ route('orders.index') }}">
-            <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
-                <figure>
-                    <img class="h-64 w-64 object-center" src="{{ asset('images/invoiceicon.jpg') }}"
-                        alt="Invoice Icon" />
-                </figure>
-                <div class="card-body">
-                    <h1 class="text-center font-bold text-2xl">Invoice</h1>
+            {{-- Invoice --}}
+            <a href="{{ route('orders.index') }}">
+                <div class="card card-bordered hover:shadow-lg hover:bg-gray-100 transition w-64">
+                    <figure class="p-3">
+                        <img
+                            class="h-36 w-36 mx-auto object-contain rounded-xl"
+                            src="{{ asset('images/invoiceicon.jpeg') }}"
+                            alt="Invoice">
+                    </figure>
+                    <div class="card-body py-3">
+                        <h1 class="text-center font-bold text-lg">Invoice</h1>
+                    </div>
                 </div>
-            </div>
-        </a>
-        <a href="{{ route('report.show') }}">
-            <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
-                <figure>
-                    <img class="h-64 w-64 object-center" src="{{ asset('images/report.jpg') }}"
-                        alt="Report Details Icon" />
-                </figure>
-                <div class="card-body">
-                    <h1 class="text-center font-bold text-2xl">Reports</h1>
-                </div>
-            </div>
-        </a>
+            </a>
 
-        <a href="{{ route('customers.index') }}">
-            <div class="mx-3 card card-bordered hover:shadow-lg hover:bg-gray-100">
-                <figure>
-                    <img class="h-64 w-64 object-center" src="{{ asset('images/custom.jpg') }}"
-                        alt="Customer Details Icon" />
-                </figure>
-                <div class="card-body">
-                    <h1 class="text-center font-bold text-2xl">Customer Details</h1>
+            {{-- Reports --}}
+            <a href="{{ route('report.show') }}">
+                <div class="card card-bordered hover:shadow-lg hover:bg-gray-100 transition w-64">
+                    <figure class="p-3">
+                        <img
+                            class="h-36 w-36 mx-auto object-contain rounded-xl"
+                            src="{{ asset('images/report.jpeg') }}"
+                            alt="Reports">
+                    </figure>
+                    <div class="card-body py-3">
+                        <h1 class="text-center font-bold text-lg">Reports</h1>
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
 
+            {{-- Customer Details --}}
+            <a href="{{ route('customers.index') }}">
+                <div class="card card-bordered hover:shadow-lg hover:bg-gray-100 transition w-64">
+                    <figure class="p-3">
+                        <img
+                            class="h-36 w-36 mx-auto object-contain rounded-xl"
+                            src="{{ asset('images/custom.jpeg') }}"
+                            alt="Customer Details">
+                    </figure>
+                    <div class="card-body py-3">
+                        <h1 class="text-center font-bold text-lg">Customer Details</h1>
+                    </div>
+                </div>
+            </a>
+
+            {{-- Sample Order --}}
+            <a href="{{ route('sampleorder.show') }}">
+                <div class="card card-bordered hover:shadow-lg hover:bg-gray-100 transition w-64">
+                    <figure class="p-3">
+                        <img
+                            class="h-36 w-36 mx-auto object-contain rounded-xl"
+                            src="{{ asset('images/sampleorder.jpeg') }}"
+                            alt="Sample Order">
+                    </figure>
+                    <div class="card-body py-3">
+                        <h1 class="text-center font-bold text-lg">Sample Order</h1>
+                    </div>
+                </div>
+            </a>
+
+        </div>
     </div>
-
-
 </x-app-layout>

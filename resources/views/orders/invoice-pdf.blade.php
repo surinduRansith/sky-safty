@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            font-size: 15px;
+            /* font-size: 15px; */
 
         }
 
@@ -23,6 +23,8 @@
             right: 0;
 
             text-align: right;
+            font-size: 14px;
+
 
         }
 
@@ -31,7 +33,7 @@
         position: absolute;
         /* margin-top: 1px; */
         left: 0;
-
+            font-size: 14px;
         text-align: left;
         }
 
@@ -39,8 +41,9 @@
 
         .item-table {
             width: 100%;
+            font-size: 14px;
 
-            margin-top: 150px;
+            margin-top: 135px;
         }
 
         .item-table th,
@@ -82,6 +85,10 @@
     margin-bottom: 10px;
     align-items: flex-start;
 }
+.footerTable {
+            font-size: 14px;
+
+}
 
     </style>
 </head>
@@ -94,7 +101,7 @@
                     
               
                 <td style="width: 40%;">
-                    <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image" style="width: 90px; height: auto;">
+                    <img src="{{ public_path('images/logo.jpg') }}" alt="Sample Image" style="width: 75px; height: auto;">
                 </td>
 
                 <td style="width: 500%;  text-align: left; padding-left: 20px;">
@@ -333,7 +340,7 @@
     </div> --}}
 </body>
 <footer style="position: fixed; bottom: 0; width: 100%;">
-    <table style="width: 100%;">
+    <table style="width: 100%;" class="footerTable">
         <tbody>
             <!-- Row for Authorized and Customer Signature -->
             <tr>
@@ -354,8 +361,8 @@
             <tr>
                 <td colspan="2" style="text-align: center;">
                     <div style="margin: 0 auto; width: 80%;"> <!-- Center align the content -->
-                        <p style="font-size: 10.64px;">
-                            ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “Sky Safety Equipment” AND CROSSED “ACCOUNT
+                        <p style="font-size: 9.64px;">
+                            ALL PAYMENTS/ CHEQUES TO BE DRAWN IN FAVOR OF “{{ $companydetails['company_name'] }}” AND CROSSED “ACCOUNT
                             PAYEE ONLY.”
                             For exchange, please submit the goods along with the invoice within 7 working days.
                         </p>

@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-    font-size: 15.96px;
+    /* font-size: 15.96px; */
     margin: 0;
     padding: 0;
     display: flex;
@@ -54,12 +54,13 @@
             border-collapse: collapse;
             margin-top:180px;
             border: 1px solid #333;
+            font-size: 14px
             /* Adds border around the entire table */
         }
 
         .item-table th,
         .item-table td {
-            font-size:14px;
+            font-size:12px;
             padding: 8px;
             border: 1px solid #333;
         }
@@ -78,11 +79,11 @@
                 </td>
 
                 <td style="width: 500%;  text-align: left; padding-left: 20px;">
-                    <h1 style="margin: 0; font-weight: bold;">Sky Safety Equipment</h1>
-                    <h5 style="margin: 0;">No 70/7, Robert Gunawardana Mw, Thalangama South, Battaramulla, Sri Lanka
+                    <h1 style="margin: 0; font-weight: bold;">{{ $companydetails['company_name'] }}</h1>
+                    <h5 style="margin: 0;">{{ $companydetails['address'] }}
                     </h5>
-                    <h5 style="margin: 0;">Email: skysafetyequipment@gmail.com | Mobile: 0768 459 499</h5>
-                    <h5 style="margin: 0;">Business Reg. No: WD 21641</h5>
+                    <h5 style="margin: 0;">Email: {{ $companydetails['email'] }} | Mobile: {{ $companydetails['phone_number'] }}</h5>
+                    <h5 style="margin: 0;">Business Reg. No: {{ $companydetails['brregistration'] }}</h5>
                 </td>
                 <td style=" padding-left: 50px;" >
                     
@@ -212,7 +213,7 @@
                 <tr>
 
 
-                    <td style="width: 25%; border: 1px solid #333; padding: 8px; text-align: left;font-size: 14px;">
+                    <td style="width: 25%; border: 1px solid #333; padding: 8px; text-align: left;font-size: 12px;">
                         <ul>
                             <li>{{ $quoteitem['itemcode'] }}</li>
                             <li>{{ $quoteitem['itemname'] }}</li>

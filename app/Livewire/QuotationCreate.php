@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-
+use App\Models\companyDetails;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -245,6 +245,7 @@ class QuotationCreate extends Component
         $this->orderbills = quotation::where('code', '=', $this->quotatoinId)->get();
         $this->orderitems = OrderItem::where('order_id', '=', $this->quotatoinId)->get();
 
+        $companydetails = companyDetails::all()->first(); 
 
 
 
@@ -258,7 +259,9 @@ class QuotationCreate extends Component
             'validityPeriod' => $this->validperiod,
             'orderitems' => $this->orderitems,
             'customerdetails' => $customerdetails,
-            'contactNumber' => $this->contactNumber
+            'contactNumber' => $this->contactNumber,
+            'companydetails'=>$companydetails,
+
         ];
 
         $pdf = Pdf::loadView('quotation.quotationPdf', $data)

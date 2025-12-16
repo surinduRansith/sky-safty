@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-    /* font-size: 15.96px; */
+    font-size: 15.96px;
     margin: 0;
     padding: 0;
     display: flex;
@@ -54,7 +54,7 @@
             border-collapse: collapse;
             margin-top:180px;
             border: 1px solid #333;
-            font-size: 14px
+            
             /* Adds border around the entire table */
         }
 
@@ -87,7 +87,7 @@
                 </td>
                 <td style=" padding-left: 50px;" >
                     
-                <img src="{{ public_path('images/greateagle.webp') }}" alt="Sample Image"
+                {{-- <img src="{{ public_path('images/greateagle.webp') }}" alt="Sample Image"
                         style="width: 50px; height: 50px;">
                
                     <img src="{{ public_path('images/Udyogi.png') }}" alt="Sample Image"
@@ -97,7 +97,7 @@
                         style="width: 50px; height: 50px;">
                 
                     <img src="{{ public_path('images/3m.png') }}" alt="Sample Image"
-                        style="width: 50px; height: 30px;">
+                        style="width: 50px; height: 30px;"> --}}
     </td>
             </tr>
         </tbody>
